@@ -8,6 +8,8 @@
 
     require 'include/db_conn.php';
 
+    $id = $_GET['id'];
+
     if (isset($_POST["submit"])) {
         $fieldsToUpdate = array();
         if (isset($_POST["heading"])) {
@@ -61,7 +63,7 @@
             echo "Error: " . $conn->error;
         }
     } else {
-        $sql = "SELECT * FROM feature_section WHERE fea_id = 1";
+        $sql = "SELECT * FROM feature_section WHERE fea_id = '$id'";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
