@@ -45,10 +45,10 @@
                 if (move_uploaded_file($_FILES["fea_img"]["tmp_name"], $fileFullPath)) {
                     $fieldsToUpdate[] = "fea_img = '{$fileFullPath}'";
                 } else {
-                    echo "<script>alert('Error uploading file!')</script>";
+                    echo "<script>('Error uploading file!');</script>";
                 }
             } else {
-                echo "<script>alert('Invalid file format!')</script>";
+                echo "<script>alert('Invalid file format!');</script>";
             }
         }
         
