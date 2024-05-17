@@ -117,7 +117,7 @@
                                     
                                         <div class="mb-3">
                                             <label for="example-email" class="form-label">Heading:</label>
-                                            <input type="text" id="ab-heading" name="heading" class="form-control" placeholder="Your Welcome Message" value="<?php echo $about_heading; ?>">
+                                            <input type="text" id="ab-heading" name="heading" class="form-control" placeholder="Your Heading Message" value="<?php echo $about_heading; ?>">
                                         </div>
 
                                         <div class="mb-3">
