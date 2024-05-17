@@ -50,7 +50,7 @@
         </li>
 
         <li class="side-nav-item">
-            <a href="about-section.php" class="side-nav-link">
+            <a href="features-section.php" class="side-nav-link">
                 <i class="ri-dashboard-3-line"></i>
                 <span> Features Section </span>
             </a>
