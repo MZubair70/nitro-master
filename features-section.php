@@ -121,29 +121,34 @@
                                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
                                     
                                         <div class="mb-3">
-                                            <label for="example-email" class="form-label">Welcome Note:</label>
-                                            <input type="text" id="welcomeNote" name="welcome_msg" class="form-control" placeholder="Your Welcome Message" value="<?php echo $welcome_msg; ?>">
+                                            <label for="example-email" class="form-label">Heading:</label>
+                                            <input type="text" id="feature-heading" name="heading" class="form-control" placeholder="Your Heading Message" value="<?php echo $welcome_msg; ?>">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="example-email" class="form-label">Sub Heading:</label>
+                                            <input type="text" id="feature-subheading" name="fea_subheading" class="form-control" placeholder="Your Sub-Heading Message" value="<?php echo $welcome_msg; ?>">
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="example-palaceholder" class="form-label">Paragraph</label>
-                                            <textarea class="form-control" id="paragraph" name="paragraph" rows="3" cols="50"><?php echo $paragraph; ?></textarea>
+                                            <textarea class="form-control" id="paragraph" name="fea_paragraph" rows="3" cols="50"><?php echo $paragraph; ?></textarea>
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="example-select" class="form-label">Button Active / Deactive</label>
-                                            <select class="form-select" id="buttonSwitch" name="button_switch">
+                                            <select class="form-select" id="feature-button" name="fea_button">
                                                 <option value="1" <?php if ($button_switch == 1) echo "selected"; ?>>Active</option>
                                                 <option value="0" <?php if ($button_switch == 0) echo "selected"; ?>>Deactive</option>
                                             </select>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="example-fileinput" class="form-label">Background Image</label>
+                                            <label for="example-fileinput" class="form-label">Feature Section Image</label>
                                             <?php if (!empty($file_name)) : ?>
                                                 <p>Current File: <?php echo $file_name; ?></p>
                                             <?php endif; ?>
-                                            <input type="file" id="frontBgImg" name="front_bg_img" class="form-control">
+                                            <input type="file" id="feature-img" name="fea_img" class="form-control">
                                         </div>
 
                                         <?php if (!empty($fileFullPath)) : ?>
@@ -155,7 +160,7 @@
                                         <div class="mb-3">
                                             <div class="form-check form-switch form-switch-lg">
                                                 <label class="form-check-label" for="welcomeNoteSwitch">Section ON/OFF</label>
-                                                <input class="form-check-input" type="checkbox" id="toggle-front" name="status" <?php if ($status == 1) echo "checked"; ?>>
+                                                <input class="form-check-input" type="checkbox" id="toggle-feature" name="status" <?php if ($status == 1) echo "checked"; ?>>
                                             </div>
                                         </div>
 
