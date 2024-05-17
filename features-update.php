@@ -45,15 +45,15 @@
                 if (move_uploaded_file($_FILES["fea_img"]["tmp_name"], $fileFullPath)) {
                     $fieldsToUpdate[] = "fea_img = '{$fileFullPath}'";
                 } else {
-                    echo "&lt;script&gt;alert('Error uploading file!');&lt;/script&gt;";
+                    echo "<script>alert('Error uploading file!')</script>";
                 }
             } else {
-                echo "&lt;script&gt;alert('Invalid file format!');&lt;/script&gt;";
+                echo "<script>alert('Invalid file format!')</script>";
             }
         }
         
         $updateFields = implode(", ", $fieldsToUpdate);
-        $sql = "UPDATE feature_section SET {$updateFields} WHERE fea_id = 1";
+        $sql = "UPDATE feature_section SET {$updateFields} WHERE fea_id = '$id'";
         
         $stmt = $conn->query($sql);
         if ($stmt) {
