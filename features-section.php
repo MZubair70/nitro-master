@@ -73,10 +73,10 @@ require 'include/db_conn.php';
                                                 <?php 
                                                     if ($row['fea_btn']) {
                                                         // If button is active
-                                                        echo '<button class="btn btn-success">Active</button>';
+                                                        echo '<h4><span class="badge bg-info">Active</span></h4>';
                                                     } else {
                                                         // If button is inactive
-                                                        echo '<button class="btn btn-warning">Deactive</button>';
+                                                        echo '<h4><span class="badge bg-warning">Deactive</span></h4>';
                                                     }
                                                     ?>
                                                 </td>
@@ -85,12 +85,12 @@ require 'include/db_conn.php';
                                                 </td>
                                                 <td>
                                                 <?php 
-                                                    if ($row['status']) {
+                                                    if ($row['status'] == 1) {
                                                         // If status is active
-                                                        echo '<span style="color: green;">ON</span>';
+                                                        echo '<h4><span class="badge bg-primary"> On </span></h4>';
                                                     } else {
                                                         // If status is inactive
-                                                        echo '<span style="color: red;">OFF</span>';
+                                                        echo '<h4><span class="badge bg-danger"> Off </span></h4>';
                                                     }
                                                     ?>
                                                     </td>
