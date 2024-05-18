@@ -195,27 +195,23 @@
 
 
 <?php
-
-
 // Fetch data from the feature_section table
 $sql = "SELECT * FROM feature_section WHERE status = 1";
 $result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    $features = array(); // Initialize an empty array to store features data
+$features = array(); // Initialize an empty array to store features data
 
+if ($result->num_rows > 0) {
     // Fetch each row of data and store it in the $features array
     while ($row = $result->fetch_assoc()) {
         $features[] = $row;
     }
-} else {
-    // If no data found in the table
-    $features = array(); // Set features array to empty
 }
 
 // $conn->close(); // Close the database connection
 ?>
 
+<?php if (!empty($features)) : ?>
 <section class="site-section">
     <div class="container">
         <div class="row mb-5 justify-content-center">
@@ -229,7 +225,7 @@ if ($result->num_rows > 0) {
             <div class="col-lg-6 mb-5" data-aos="fade-up" data-aos-delay="">
                 <div class="owl-carousel slide-one-item-alt">
                     <?php foreach ($features as $feature) : ?>
-                        <img src="<?php echo $feature['fea_img']; ?>" alt="Image" class="img-fluid">
+                        <img src="<?php echo htmlspecialchars($feature['fea_img']); ?>" alt="Image" class="img-fluid">
                     <?php endforeach; ?>
                 </div>
                 <div class="custom-direction">
@@ -242,12 +238,12 @@ if ($result->num_rows > 0) {
                 <div class="owl-carousel slide-one-item-alt-text">
                     <?php foreach ($features as $feature) : ?>
                         <div>
-                            <h2 class="section-title mb-3"><?php echo $feature['fea_heading']; ?></h2>
-                            <p class="lead"><?php echo $feature['fea_subheading']; ?></p>
-                            <p><?php echo $feature['fea_para']; ?></p>
-                            <?php if ($feature['fea_btn'] == 1) { ?>
-                            <p><a href="#" class="btn btn-primary mr-2 mb-2">Learn More</a></p>
-                            <?php } ?>
+                            <h2 class="section-title mb-3"><?php echo htmlspecialchars($feature['fea_heading']); ?></h2>
+                            <p class="lead"><?php echo htmlspecialchars($feature['fea_subheading']); ?></p>
+                            <p><?php echo htmlspecialchars($feature['fea_para']); ?></p>
+                            <?php if ($feature['fea_btn'] == 1) : ?>
+                                <p><a href="#" class="btn btn-primary mr-2 mb-2">Learn More</a></p>
+                            <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -255,6 +251,8 @@ if ($result->num_rows > 0) {
         </div>
     </div>
 </section>
+<?php endif; ?>
+
 
 
 
