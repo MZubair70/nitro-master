@@ -8,30 +8,35 @@
 
     require 'include/db_conn.php';
 
-    $id = $_GET['id'];
+    // Get the id and sanitize it
+    $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+    if ($id === 0) {
+        header("Location: features-section.php");
+        exit();
+    }
 
     if (isset($_POST["submit"])) {
         $fieldsToUpdate = array();
-        if (isset($_POST["heading"])) {
-            $fieldsToUpdate[] = "fea_heading = '{$_POST["heading"]}'";
+        
+        if (!empty($_POST["heading"])) {
+            $fieldsToUpdate[] = "fea_heading = ?";
         }
-        if (isset($_POST["subheading"])) {
-            $fieldsToUpdate[] = "fea_subheading = '{$_POST["subheading"]}'";
+        if (!empty($_POST["subheading"])) {
+            $fieldsToUpdate[] = "fea_subheading = ?";
         }
-        if (isset($_POST["paragraph"])) {
-            $fieldsToUpdate[] = "fea_para = '{$_POST["paragraph"]}'";
+        if (!empty($_POST["paragraph"])) {
+            $fieldsToUpdate[] = "fea_para = ?";
         }
         if (isset($_POST["button"])) {
-            $fieldsToUpdate[] = "fea_btn = '{$_POST["button"]}'";
+            $fieldsToUpdate[] = "fea_btn = ?";
         }
         if (isset($_POST["status"])) {
-            $fieldsToUpdate[] = "status = '{$_POST["status"]}'";
-        }
-        if (isset($_POST["fea_img"])) {
-            $fieldsToUpdate[] = "fea_img = '{$_POST["fea_img"]}'";
+            $fieldsToUpdate[] = "status = ?";
         }
 
         // Check if file is uploaded
+        $fileFullPath = '';
         if (!empty($_FILES["fea_img"]["name"])) {
             $targetDir = "imgs/";
             $fileName = basename($_FILES["fea_img"]["name"]);
@@ -43,28 +48,57 @@
             if (in_array($fileType, $allowedTypes)) {
                 // Move the uploaded file to the desired location
                 if (move_uploaded_file($_FILES["fea_img"]["tmp_name"], $fileFullPath)) {
-                    $fieldsToUpdate[] = "fea_img = '{$fileFullPath}'";
+                    $fieldsToUpdate[] = "fea_img = ?";
                 } else {
-                    echo "<script>('Error uploading file!');</script>";
+                    echo "<script>alert('Error uploading file!');</script>";
                 }
             } else {
                 echo "<script>alert('Invalid file format!');</script>";
             }
         }
-        
-        $updateFields = implode(", ", $fieldsToUpdate);
-        $sql = "UPDATE feature_section SET {$updateFields} WHERE fea_id = '$id'";
-        
-        $stmt = $conn->query($sql);
-        if ($stmt) {
-            echo "<script>alert('Data updated successfully!');</script>";
-            echo "<script>window.location.href = 'features-section.php';</script>";
-        } else {
-            echo "Error: " . $conn->error;
+
+        if (!empty($fieldsToUpdate)) {
+            $updateFields = implode(", ", $fieldsToUpdate);
+            $sql = "UPDATE feature_section SET $updateFields WHERE fea_id = ?";
+            
+            $stmt = $conn->prepare($sql);
+
+            $params = [];
+            if (!empty($_POST["heading"])) {
+                $params[] = $_POST["heading"];
+            }
+            if (!empty($_POST["subheading"])) {
+                $params[] = $_POST["subheading"];
+            }
+            if (!empty($_POST["paragraph"])) {
+                $params[] = $_POST["paragraph"];
+            }
+            if (isset($_POST["button"])) {
+                $params[] = $_POST["button"];
+            }
+            if (isset($_POST["status"])) {
+                $params[] = $_POST["status"] ? 1 : 0;
+            }
+            if (!empty($fileFullPath)) {
+                $params[] = $fileFullPath;
+            }
+            $params[] = $id;
+
+            $stmt->bind_param(str_repeat("s", count($params)), ...$params);
+
+            if ($stmt->execute()) {
+                echo "<script>alert('Data updated successfully!');</script>";
+                echo "<script>window.location.href = 'features-section.php';</script>";
+            } else {
+                echo "Error: " . $conn->error;
+            }
         }
     } else {
-        $sql = "SELECT * FROM feature_section WHERE fea_id = '$id'";
-        $result = $conn->query($sql);
+        $sql = "SELECT * FROM feature_section WHERE fea_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -81,8 +115,6 @@
             $button = "";
             $status = "";
             $fileFullPath = "";
-            $folderName = "";
-            $fileName = "";
         }
     }
 
@@ -110,21 +142,21 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) . "?id=$id"; ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
                                     
                                         <div class="mb-3">
                                             <label for="feature-heading" class="form-label">Heading:</label>
-                                            <input type="text" id="feature-heading" name="heading" class="form-control" placeholder="Your Heading Message" value="<?php echo $heading; ?>">
+                                            <input type="text" id="feature-heading" name="heading" class="form-control" placeholder="Your Heading Message" value="<?php echo htmlspecialchars($heading); ?>">
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="feature-subheading" class="form-label">Sub Heading:</label>
-                                            <input type="text" id="feature-subheading" name="subheading" class="form-control" placeholder="Your Sub-Heading Message" value="<?php echo $subheading; ?>">
+                                            <input type="text" id="feature-subheading" name="subheading" class="form-control" placeholder="Your Sub-Heading Message" value="<?php echo htmlspecialchars($subheading); ?>">
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="paragraph" class="form-label">Paragraph</label>
-                                            <textarea class="form-control" id="paragraph" name="paragraph" rows="3" cols="50"><?php echo $paragraph; ?></textarea>
+                                            <textarea class="form-control" id="paragraph" name="paragraph" rows="3" cols="50"><?php echo htmlspecialchars($paragraph); ?></textarea>
                                         </div>
 
                                         <div class="mb-3">
@@ -137,17 +169,12 @@
 
                                         <div class="mb-3">
                                             <label for="feature-img" class="form-label">Feature Section Image</label>
-                                            <?php if (!empty($fileName)) : ?>
-                                                <p>Current File: <?php echo $fileName; ?></p>
+                                            <?php if (!empty($fileFullPath)) : ?>
+                                                <p>Current File: <?php echo basename($fileFullPath); ?></p>
+                                                <img src="<?php echo htmlspecialchars($fileFullPath); ?>" alt="Uploaded Image" style="max-width: 100px;">
                                             <?php endif; ?>
                                             <input type="file" id="feature-img" name="fea_img" class="form-control">
                                         </div>
-
-                                        <?php if (!empty($fileFullPath)) : ?>
-                                            <div class="mb-3">
-                                                <img src="<?php echo $fileFullPath; ?>" alt="Uploaded Image" style="max-width: 100px;">
-                                            </div>
-                                        <?php endif; ?>
 
                                         <div class="mb-3">
                                             <div class="form-check form-switch form-switch-lg">
