@@ -41,9 +41,9 @@ if (isset($_POST["submit"])) {
     }
 
     // Prepare SQL insert statement
-    $sql = "INSERT INTO team_section (member, position, fb_link, linkedin_link, insta_link, status, member_img) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO team_section (member, position, fb_link, twit_link, linkedin_link, insta_link, links_status, status, member_img) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssis", $member, $position, $fb_link, $twit_link, $linkedin_link, $insta_link, $status, $fileFullPath);
+    $stmt->bind_param("sssssssis", $member, $position, $fb_link, $twit_link, $linkedin_link, $insta_link, $links_status, $status, $fileFullPath);
 
     if ($stmt->execute()) {
         echo "<script>alert('Data inserted successfully!');</script>";
@@ -58,7 +58,6 @@ if (isset($_POST["submit"])) {
 ?>
 
 <?php include 'include/header.php'; ?>
-
 <?php include 'include/sidebar.php'; ?>
 
 <div class="content-page">
@@ -111,8 +110,8 @@ if (isset($_POST["submit"])) {
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="socail-button" class="form-label">Socaial Buttons Active / Deactive</label>
-                                            <select class="form-select" id="socail-button" name="button">
+                                            <label for="social-button" class="form-label">Social Buttons Active / Deactive</label>
+                                            <select class="form-select" id="social-button" name="links_status">
                                                 <option value="1">Active</option>
                                                 <option value="0">Deactive</option>
                                             </select>
