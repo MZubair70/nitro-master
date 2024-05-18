@@ -29,8 +29,9 @@ require 'include/db_conn.php';
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
-                    <div class="page-title-box">
+                    <div class="page-title-box d-flex justify-content-between align-items-center">
                         <h4 class="page-title">Features Section</h4>
+                        <a href="features-add.php" class="btn btn-primary">Add New</a>
                     </div>
                 </div>
             </div>
