@@ -198,7 +198,7 @@
 
 
 // Fetch data from the feature_section table
-$sql = "SELECT * FROM feature_section";
+$sql = "SELECT * FROM feature_section WHERE status = 1";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -245,7 +245,9 @@ if ($result->num_rows > 0) {
                             <h2 class="section-title mb-3"><?php echo $feature['fea_heading']; ?></h2>
                             <p class="lead"><?php echo $feature['fea_subheading']; ?></p>
                             <p><?php echo $feature['fea_para']; ?></p>
+                            <?php if ($feature['fea_btn'] == 1) { ?>
                             <p><a href="#" class="btn btn-primary mr-2 mb-2">Learn More</a></p>
+                            <?php } ?>
                         </div>
                     <?php endforeach; ?>
                 </div>
