@@ -99,7 +99,7 @@ require 'include/db_conn.php';
                                                     <a href="team-update.php?id=<?php echo $row['team_id']; ?>" class="text-reset fs-16 px-1">
                                                         <i class="ri-settings-3-line"></i>
                                                     </a>
-                                                    <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['team_id']; ?>);" class="text-reset fs-16 px-1">
+                                                    <a href="javascript:void(0);" onclick="confirmTeamDelete(<?php echo $row['team_id']; ?>);" class="text-reset fs-16 px-1">
                                                         <i class="ri-delete-bin-2-line"></i>
                                                     </a>
                                                 </td>

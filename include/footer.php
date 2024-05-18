@@ -59,6 +59,11 @@
                 window.location.href = "features-delete.php?id=" + id;
             }
         }
+        function confirmTeamDelete(id) {
+            if (confirm("Are you sure you want to delete this team member?")) {
+                window.location.href = "team-delete.php?id=" + id;
+            }
+        }
     </script>
 
 </body>

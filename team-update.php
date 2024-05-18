@@ -8,6 +8,14 @@ if (!isset($_SESSION["user_id"])) {
 
 require 'include/db_conn.php';
 
+// Get the id and sanitize it
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+if ($id === 0) {
+    header("Location: team-section.php");
+    exit();
+}
+
 if (isset($_POST["submit"])) {
     $member = $_POST["member"] ?? '';
     $position = $_POST["position"] ?? '';
@@ -40,22 +48,53 @@ if (isset($_POST["submit"])) {
         }
     }
 
-    // Prepare SQL insert statement
-    $sql = "INSERT INTO team_section (member, position, fb_link, linkedin_link, insta_link, status, member_img) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    // Prepare SQL update statement
+    $sql = "UPDATE team_section SET member = ?, position = ?, member_img = ?, fb_link = ?, twit_link = ?, linkedin_link = ?, insta_link = ?, links_status = ?, status = ? WHERE team_id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssis", $member, $position, $fb_link, $linkedin_link, $insta_link, $status, $fileFullPath);
+    $stmt->bind_param("ssssssissi", $member, $position, $fb_link, $twit_link, $linkedin_link, $insta_link, $links_status, $status, $fileFullPath, $id);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Data inserted successfully!');</script>";
-        echo "<script>window.location.href = 'team-section.php';</script>";
+        echo "<script>alert('Data updated successfully!');</script>";
+        // echo "<script>window.location.href = 'team-section.php';</script>";
     } else {
         echo "Error: " . $conn->error;
     }
 
     $stmt->close();
     $conn->close();
+} else {
+    $sql = "SELECT * FROM team_section WHERE team_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $member = $row["member"];
+        $position = $row["position"];
+        $fb_link = $row["fb_link"];
+        $twit_link = $row["twit_link"];
+        $linkedin_link = $row["linkedin_link"];
+        $insta_link = $row["insta_link"];
+        $links_status = $row["links_status"];
+        $status = $row["status"];
+        $fileFullPath = $row["member_img"];
+    } else {
+        $member = "";
+        $position = "";
+        $fb_link = "";
+        $twit_link = "";
+        $linkedin_link = "";
+        $insta_link = "";
+        $links_status = "";
+        $status = "";
+        $fileFullPath = "";
+    }
 }
 ?>
+
+
 
 <?php include 'include/header.php'; ?>
 
@@ -82,53 +121,58 @@ if (isset($_POST["submit"])) {
                                     
                                         <div class="mb-3">
                                             <label for="team-member" class="form-label">Member Name:</label>
-                                            <input type="text" id="team-member" name="member" class="form-control" placeholder="Member Name" value="">
+                                            <input type="text" id="team-member" name="member" class="form-control" placeholder="Member Name" value="<?php echo $member; ?>">
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="team-position" class="form-label">Position:</label>
-                                            <input type="text" id="team-position" name="position" class="form-control" placeholder="Position" value="">
+                                            <input type="text" id="team-position" name="position" class="form-control" placeholder="Position" value="<?php echo $position; ?>">
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="fb-link" class="form-label">Facebook Link:</label>
-                                            <input type="text" id="fb-link" name="fb_link" class="form-control" placeholder="Facebook Profile Link" value="">
+                                            <input type="text" id="fb-link" name="fb_link" class="form-control" placeholder="Facebook Profile Link" value="<?php echo $fb_link; ?>">
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="twit-link" class="form-label">Twitter Link:</label>
-                                            <input type="text" id="twit-link" name="twit_link" class="form-control" placeholder="Twitter Profile Link" value="">
+                                            <input type="text" id="twit-link" name="twit_link" class="form-control" placeholder="Twitter Profile Link" value="<?php echo $twit_link; ?>">
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="linkedin-link" class="form-label">LinkedIn Link:</label>
-                                            <input type="text" id="linkedin-link" name="linkedin_link" class="form-control" placeholder="LinkedIn Profile Link" value="">
+                                            <input type="text" id="linkedin-link" name="linkedin_link" class="form-control" placeholder="LinkedIn Profile Link" value="<?php echo $linkedin_link; ?>">
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="insta-link" class="form-label">Instagram Link:</label>
-                                            <input type="text" id="insta-link" name="insta_link" class="form-control" placeholder="Instagram Profile Link" value="">
+                                            <input type="text" id="insta-link" name="insta_link" class="form-control" placeholder="Instagram Profile Link" value="<?php echo $insta_link; ?>">
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="socail-button" class="form-label">Socaial Buttons Active / Deactive</label>
-                                            <select class="form-select" id="socail-button" name="button">
-                                                <option value="1">Active</option>
-                                                <option value="0">Deactive</option>
+                                            <label for="socail-button" class="form-label">Social Buttons Active / Deactive</label>
+                                            <select class="form-select" id="social-button" name="links_status">
+                                                <option value="1" <?php if ($links_status == 1) echo "selected"; ?>>Active</option>
+                                                <option value="0" <?php if ($links_status == 0) echo "selected"; ?>>Deactive</option>
                                             </select>
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="member-img" class="form-label">Member Image</label>
+                                            <?php if (!empty($fileFullPath)) : ?>
+                                                <p>Current File: <?php echo basename($fileFullPath); ?></p>
+                                                <img class="mb-3" src="<?php echo htmlspecialchars($fileFullPath); ?>" alt="Uploaded Image" style="max-width: 100px;">
+                                            <?php endif; ?>
                                             <input type="file" id="member-img" name="member_img" class="form-control">
                                         </div>
 
                                         <div class="mb-3">
                                             <div class="form-check form-switch form-switch-lg">
                                                 <label class="form-check-label" for="toggle-status">Status ON/OFF</label>
-                                                <input class="form-check-input" type="checkbox" id="toggle-status" name="status">
+                                                <input class="form-check-input" type="checkbox" id="toggle-status" name="status" <?php if ($status == 1) echo "checked"; ?>>
                                             </div>
                                         </div>
+
 
                                         <div class="mb-3">
                                             <div class="col-9">

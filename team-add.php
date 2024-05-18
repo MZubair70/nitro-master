@@ -43,7 +43,7 @@ if (isset($_POST["submit"])) {
     // Prepare SQL insert statement
     $sql = "INSERT INTO team_section (member, position, fb_link, linkedin_link, insta_link, status, member_img) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssis", $member, $position, $fb_link, $linkedin_link, $insta_link, $status, $fileFullPath);
+    $stmt->bind_param("sssssis", $member, $position, $fb_link, $twit_link, $linkedin_link, $insta_link, $status, $fileFullPath);
 
     if ($stmt->execute()) {
         echo "<script>alert('Data inserted successfully!');</script>";

@@ -257,166 +257,73 @@ if ($result->num_rows > 0) {
 
 
     
-    <section class="site-section border-bottom" id="team-section">
-      <div class="container">
+<?php
+// Fetch team members from the database
+$sql = "SELECT * FROM team_section WHERE status = 1";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+?>
+<section class="site-section border-bottom" id="team-section">
+    <div class="container">
         <div class="row mb-5 justify-content-center">
-          <div class="col-md-8 text-center">
-            <h2 class="section-title mb-3" data-aos="fade-up" data-aos-delay="">Our Team</h2>
-            <p class="lead" data-aos="fade-up" data-aos-delay="100">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus minima neque tempora reiciendis.</p>
-          </div>
+            <div class="col-md-8 text-center">
+                <h2 class="section-title mb-3" data-aos="fade-up" data-aos-delay="">Our Team</h2>
+                <p class="lead" data-aos="fade-up" data-aos-delay="100">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus minima neque tempora reiciendis.</p>
+            </div>
         </div>
         <div class="row">
-          
-
-          <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="">
-            <div class="team-member">
-              <figure>
-                <ul class="social">
-                  <li><a href="#"><span class="icon-facebook"></span></a></li>
-                  <li><a href="#"><span class="icon-twitter"></span></a></li>
-                  <li><a href="#"><span class="icon-linkedin"></span></a></li>
-                  <li><a href="#"><span class="icon-instagram"></span></a></li>
-                </ul>
-                <img src="assets-nitro/images/person_5.jpg" alt="Image" class="img-fluid">
-              </figure>
-              <div class="p-3">
-                <h3>Kaiara Spencer</h3>
-                <span class="position">Product Manager</span>
-              </div>
+            <?php
+            // Output data of each row
+            while ($row = $result->fetch_assoc()) {
+                $memberName = $row["member"];
+                $position = $row["position"];
+                $fbLink = $row["fb_link"];
+                $twitLink = $row["twit_link"];
+                $linkedinLink = $row["linkedin_link"];
+                $instaLink = $row["insta_link"];
+                $memberImg = $row["member_img"];
+                $linksStatus = $row["links_status"];
+            ?>
+            <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="">
+                <div class="team-member">
+                    <figure>
+                      <?php if ($linksStatus == 1) { ?>
+                          <ul class="social">
+                              <?php if (!empty($fbLink)) { ?>
+                                  <li><a href="<?php echo $fbLink; ?>"><span class="icon-facebook"></span></a></li>
+                              <?php } ?>
+                              <?php if (!empty($twitLink)) { ?>
+                                  <li><a href="<?php echo $twitLink; ?>"><span class="icon-twitter"></span></a></li>
+                              <?php } ?>
+                              <?php if (!empty($linkedinLink)) { ?>
+                                  <li><a href="<?php echo $linkedinLink; ?>"><span class="icon-linkedin"></span></a></li>
+                              <?php } ?>
+                              <?php if (!empty($instaLink)) { ?>
+                                  <li><a href="<?php echo $instaLink; ?>"><span class="icon-instagram"></span></a></li>
+                              <?php } ?>
+                          </ul>
+                        <?php } ?>
+                        <img src="<?php echo $memberImg; ?>" alt="Image" class="img-fluid">
+                    </figure>
+                    <div class="p-3">
+                        <h3><?php echo $memberName; ?></h3>
+                        <span class="position"><?php echo $position; ?></span>
+                    </div>
+                </div>
             </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="team-member">
-              <figure>
-                <ul class="social">
-                  <li><a href="#"><span class="icon-facebook"></span></a></li>
-                  <li><a href="#"><span class="icon-twitter"></span></a></li>
-                  <li><a href="#"><span class="icon-linkedin"></span></a></li>
-                  <li><a href="#"><span class="icon-instagram"></span></a></li>
-                </ul>
-                <img src="assets-nitro/images/person_6.jpg" alt="Image" class="img-fluid">
-              </figure>
-              <div class="p-3">
-                <h3>Dave Simpson</h3>
-                <span class="position">Product Manager</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="team-member">
-              <figure>
-                <ul class="social">
-                  <li><a href="#"><span class="icon-facebook"></span></a></li>
-                  <li><a href="#"><span class="icon-twitter"></span></a></li>
-                  <li><a href="#"><span class="icon-linkedin"></span></a></li>
-                  <li><a href="#"><span class="icon-instagram"></span></a></li>
-                </ul>
-                <img src="assets-nitro/images/person_7.jpg" alt="Image" class="img-fluid">
-              </figure>
-              <div class="p-3">
-                <h3>Ben Thompson</h3>
-                <span class="position">Product Manager</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="300">
-            <div class="team-member">
-              <figure>
-                <ul class="social">
-                  <li><a href="#"><span class="icon-facebook"></span></a></li>
-                  <li><a href="#"><span class="icon-twitter"></span></a></li>
-                  <li><a href="#"><span class="icon-linkedin"></span></a></li>
-                  <li><a href="#"><span class="icon-instagram"></span></a></li>
-                </ul>
-                <img src="assets-nitro/images/person_8.jpg" alt="Image" class="img-fluid">
-              </figure>
-              <div class="p-3">
-                <h3>Kyla Stewart</h3>
-                <span class="position">Product Manager</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="">
-            <div class="team-member">
-              <figure>
-                <ul class="social">
-                  <li><a href="#"><span class="icon-facebook"></span></a></li>
-                  <li><a href="#"><span class="icon-twitter"></span></a></li>
-                  <li><a href="#"><span class="icon-linkedin"></span></a></li>
-                  <li><a href="#"><span class="icon-instagram"></span></a></li>
-                </ul>
-                <img src="assets-nitro/images/person_1.jpg" alt="Image" class="img-fluid">
-              </figure>
-              <div class="p-3">
-                <h3>Kaiara Spencer</h3>
-                <span class="position">Product Manager</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="team-member">
-              <figure>
-                <ul class="social">
-                  <li><a href="#"><span class="icon-facebook"></span></a></li>
-                  <li><a href="#"><span class="icon-twitter"></span></a></li>
-                  <li><a href="#"><span class="icon-linkedin"></span></a></li>
-                  <li><a href="#"><span class="icon-instagram"></span></a></li>
-                </ul>
-                <img src="assets-nitro/images/person_2.jpg" alt="Image" class="img-fluid">
-              </figure>
-              <div class="p-3">
-                <h3>Dave Simpson</h3>
-                <span class="position">Product Manager</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="team-member">
-              <figure>
-                <ul class="social">
-                  <li><a href="#"><span class="icon-facebook"></span></a></li>
-                  <li><a href="#"><span class="icon-twitter"></span></a></li>
-                  <li><a href="#"><span class="icon-linkedin"></span></a></li>
-                  <li><a href="#"><span class="icon-instagram"></span></a></li>
-                </ul>
-                <img src="assets-nitro/images/person_3.jpg" alt="Image" class="img-fluid">
-              </figure>
-              <div class="p-3">
-                <h3>Ben Thompson</h3>
-                <span class="position">Product Manager</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="300">
-            <div class="team-member">
-              <figure>
-                <ul class="social">
-                  <li><a href="#"><span class="icon-facebook"></span></a></li>
-                  <li><a href="#"><span class="icon-twitter"></span></a></li>
-                  <li><a href="#"><span class="icon-linkedin"></span></a></li>
-                  <li><a href="#"><span class="icon-instagram"></span></a></li>
-                </ul>
-                <img src="assets-nitro/images/person_4.jpg" alt="Image" class="img-fluid">
-              </figure>
-              <div class="p-3">
-                <h3>Chris Stewart</h3>
-                <span class="position">Product Manager</span>
-              </div>
-            </div>
-          </div>
-
-
-          
+            <?php
+            }
+            ?>
         </div>
-      </div>
-    </section>
+    </div>
+</section>
+<?php
+} // end if
+$result->free_result();
+$conn->close();
+?>
+
 
     <section class="site-section" id="portfolio-section">
       
