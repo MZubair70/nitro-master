@@ -69,6 +69,11 @@
                 window.location.href = "category-delete.php?id=" + id;
             }
         }
+        function confirmCatImgDelete(id) {
+            if (confirm("Are you sure you want to delete this category image?")) {
+                window.location.href = "categoryImg-delete.php?id=" + id;
+            }
+        }
     </script>
 
 </body>
