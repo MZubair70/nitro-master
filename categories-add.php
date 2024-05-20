@@ -13,7 +13,7 @@
     // Check if the form is submitted
     if (isset($_POST["submit"])) {
         // Get the values from the form
-        $cat_name = $_POST["cat_name"];
+        $cat_name = ucfirst($_POST["cat_name"]);
         $status = isset($_POST["status"]) ? 1 : 0;
 
         // Prepare the insert query
