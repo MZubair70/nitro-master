@@ -156,7 +156,7 @@ if (isset($_POST["submit"])) {
                                             <label for="socail-button" class="form-label">Social Buttons Active / Inactive</label>
                                             <select class="form-select" id="social-button" name="links_status">
                                                 <option value="1" <?php if ($links_status == 1) echo "selected"; ?>>Active</option>
-                                                <option value="0" <?php if ($links_status == 0) echo "selected"; ?>>Deactive</option>
+                                                <option value="0" <?php if ($links_status == 0) echo "selected"; ?>>Inactive</option>
                                             </select>
                                         </div>
 
