@@ -56,10 +56,21 @@
         </li>
 
         <li class="side-nav-item">
-            <a href="categories-section.php" class="side-nav-link">
-                <i class="ri-dashboard-3-line"></i>
-                <span> Categories Section </span>
+            <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
+                <i class="ri-pages-line"></i>
+                <span> Portfolio Section </span>
+                <span class="menu-arrow"></span>
             </a>
+            <div class="collapse" id="sidebarPages">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="categories-section.php">Manage Categories</a>
+                    </li>
+                    <li>
+                        <a href="categories-images.php">Categories Images</a>
+                    </li>
+                </ul>
+            </div>
         </li>
 
         <!-- <li class="side-nav-item">
