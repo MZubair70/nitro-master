@@ -56,6 +56,13 @@
         </li>
 
         <li class="side-nav-item">
+            <a href="categories-section.php" class="side-nav-link">
+                <i class="ri-dashboard-3-line"></i>
+                <span> Categories Section </span>
+            </a>
+        </li>
+
+        <!-- <li class="side-nav-item">
             <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
                 <i class="ri-pages-line"></i>
                 <span> Pages </span>
@@ -98,7 +105,7 @@
                     </li>
                 </ul>
             </div>
-        </li>
+        </li> -->
 
     </ul>
     <!--- End Sidemenu -->
