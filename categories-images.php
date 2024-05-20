@@ -51,7 +51,7 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $category_data = "SELECT ci.catImg_id, ci.cat_img, cs.cat_name, ci.status FROM categories_imgs ci INNER JOIN categories_section cs ON ci.cat_id = cs.cat_id";
+                                    $category_data = "SELECT * FROM categories_imgs";
                                     $result = $conn->query($category_data);
                                     $cnt = 1;
 

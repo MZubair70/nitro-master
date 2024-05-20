@@ -113,7 +113,7 @@ if (isset($_GET['id'])) {
                                                     if ($cat_result->num_rows > 0) {
                                                         while ($cat_row = $cat_result->fetch_assoc()) {
                                                             $selected = $row['cat_id'] == $cat_row['cat_id'] ? 'selected' : '';
-                                                            echo "<option value='".$cat_row['cat_id']."' $selected>".$cat_row['cat_name']."</option>";
+                                                            echo "<option value='".$cat_row['cat_name']."' $selected>".$cat_row['cat_name']."</option>";
                                                         }
                                                     }
                                                 ?>

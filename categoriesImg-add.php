@@ -90,7 +90,7 @@ if (isset($_POST["submit"])) {
                                                     // Loop through the result set to create options for each category
                                                     if ($cat_result->num_rows > 0) {
                                                         while ($row = $cat_result->fetch_assoc()) {
-                                                            echo "<option value='".$row['cat_id']."'>".$row['cat_name']."</option>";
+                                                            echo "<option value='".$row['cat_name']."'>".$row['cat_name']."</option>";
                                                         }
                                                     }
                                                 ?>
