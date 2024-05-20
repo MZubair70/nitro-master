@@ -11,14 +11,14 @@ require 'include/db_conn.php'; // Include your database connection file
 
 // Check if 'id' is provided in the URL
 if (isset($_GET['id'])) {
-    $fea_id = intval($_GET['id']); // Convert the id to an integer for safety
+    $team_id = intval($_GET['id']); // Convert the id to an integer for safety
 
     // Prepare the SQL DELETE statement
     $sql = "DELETE FROM team_section WHERE team_id = ?";
     $stmt = $conn->prepare($sql);
 
     if ($stmt) {
-        $stmt->bind_param("i", $fea_id); // Bind the id parameter
+        $stmt->bind_param("i", $team_id); // Bind the id parameter
         if ($stmt->execute()) {
             // If the delete was successful
             echo "<script>alert('Team Member deleted successfully!');</script>";
