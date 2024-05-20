@@ -26,8 +26,10 @@ if (isset($_POST["submit"])) {
     $links_status = isset($_POST["links_status"]) ? 1 : 0;
     $status = isset($_POST["status"]) ? 1 : 0;
     
-    // Check if file is uploaded
+    // Initialize file path variable
     $fileFullPath = '';
+
+    // Check if file is uploaded
     if (!empty($_FILES["member_img"]["name"])) {
         $targetDir = "imgs/";
         $fileName = basename($_FILES["member_img"]["name"]);
@@ -46,16 +48,18 @@ if (isset($_POST["submit"])) {
             echo "<script>alert('Invalid file format!');</script>";
             $fileFullPath = ''; // reset file path if format is invalid
         }
+    } else {
+        // Retain the old image path if no new image is uploaded
+        $fileFullPath = $_POST["existing_member_img"] ?? '';
     }
 
     // Prepare SQL update statement
     $sql = "UPDATE team_section SET member = ?, position = ?, member_img = ?, fb_link = ?, twit_link = ?, linkedin_link = ?, insta_link = ?, links_status = ?, status = ? WHERE team_id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssissi", $member, $position, $fb_link, $twit_link, $linkedin_link, $insta_link, $links_status, $status, $fileFullPath, $id);
+    $stmt->bind_param("sssssssiii", $member, $position, $fileFullPath, $fb_link, $twit_link, $linkedin_link, $insta_link, $links_status, $status, $id);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Data updated successfully!');</script>";
-        // echo "<script>window.location.href = 'team-section.php';</script>";
+        echo "<script>alert('Data updated successfully!'); window.location.href = 'team-section.php';</script>";
     } else {
         echo "Error: " . $conn->error;
     }
@@ -94,10 +98,7 @@ if (isset($_POST["submit"])) {
 }
 ?>
 
-
-
 <?php include 'include/header.php'; ?>
-
 <?php include 'include/sidebar.php'; ?>
 
 <div class="content-page">
@@ -117,7 +118,7 @@ if (isset($_POST["submit"])) {
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) . "?id=" . $id; ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
                                     
                                         <div class="mb-3">
                                             <label for="team-member" class="form-label">Member Name:</label>
@@ -164,6 +165,7 @@ if (isset($_POST["submit"])) {
                                                 <img class="mb-3" src="<?php echo htmlspecialchars($fileFullPath); ?>" alt="Uploaded Image" style="max-width: 100px;">
                                             <?php endif; ?>
                                             <input type="file" id="member-img" name="member_img" class="form-control">
+                                            <input type="hidden" name="existing_member_img" value="<?php echo htmlspecialchars($fileFullPath); ?>">
                                         </div>
 
                                         <div class="mb-3">
@@ -172,7 +174,6 @@ if (isset($_POST["submit"])) {
                                                 <input class="form-check-input" type="checkbox" id="toggle-status" name="status" <?php if ($status == 1) echo "checked"; ?>>
                                             </div>
                                         </div>
-
 
                                         <div class="mb-3">
                                             <div class="col-9">
