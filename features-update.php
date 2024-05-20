@@ -171,7 +171,9 @@
                                             <label for="feature-img" class="form-label">Feature Section Image</label>
                                             <?php if (!empty($fileFullPath)) : ?>
                                                 <p>Current File: <?php echo basename($fileFullPath); ?></p>
+                                                <div class="mb-3">
                                                 <img src="<?php echo htmlspecialchars($fileFullPath); ?>" alt="Uploaded Image" style="max-width: 100px;">
+                                                </div>
                                             <?php endif; ?>
                                             <input type="file" id="feature-img" name="fea_img" class="form-control">
                                         </div>
