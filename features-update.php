@@ -18,21 +18,23 @@
 
     if (isset($_POST["submit"])) {
         $fieldsToUpdate = array();
+        $params = array();
         
         if (!empty($_POST["heading"])) {
             $fieldsToUpdate[] = "fea_heading = ?";
+            $params[] = $_POST["heading"];
         }
         if (!empty($_POST["subheading"])) {
             $fieldsToUpdate[] = "fea_subheading = ?";
+            $params[] = $_POST["subheading"];
         }
         if (!empty($_POST["paragraph"])) {
             $fieldsToUpdate[] = "fea_para = ?";
+            $params[] = $_POST["paragraph"];
         }
         if (isset($_POST["button"])) {
             $fieldsToUpdate[] = "fea_btn = ?";
-        }
-        if (isset($_POST["status"])) {
-            $fieldsToUpdate[] = "status = ?";
+            $params[] = $_POST["button"];
         }
 
         // Check if file is uploaded
@@ -49,6 +51,7 @@
                 // Move the uploaded file to the desired location
                 if (move_uploaded_file($_FILES["fea_img"]["tmp_name"], $fileFullPath)) {
                     $fieldsToUpdate[] = "fea_img = ?";
+                    $params[] = $fileFullPath;
                 } else {
                     echo "<script>alert('Error uploading file!');</script>";
                 }
@@ -57,34 +60,20 @@
             }
         }
 
+        // Update the status field
+        $status = isset($_POST["status"]) ? 1 : 0;
+        $fieldsToUpdate[] = "status = ?";
+        $params[] = $status;
+
         if (!empty($fieldsToUpdate)) {
             $updateFields = implode(", ", $fieldsToUpdate);
             $sql = "UPDATE feature_section SET $updateFields WHERE fea_id = ?";
-            
-            $stmt = $conn->prepare($sql);
-
-            $params = [];
-            if (!empty($_POST["heading"])) {
-                $params[] = $_POST["heading"];
-            }
-            if (!empty($_POST["subheading"])) {
-                $params[] = $_POST["subheading"];
-            }
-            if (!empty($_POST["paragraph"])) {
-                $params[] = $_POST["paragraph"];
-            }
-            if (isset($_POST["button"])) {
-                $params[] = $_POST["button"];
-            }
-            if (isset($_POST["status"])) {
-                $params[] = $_POST["status"] ? 1 : 0;
-            }
-            if (!empty($fileFullPath)) {
-                $params[] = $fileFullPath;
-            }
             $params[] = $id;
 
-            $stmt->bind_param(str_repeat("s", count($params)), ...$params);
+            $stmt = $conn->prepare($sql);
+
+            $types = str_repeat("s", count($params) - 1) . "i";
+            $stmt->bind_param($types, ...$params);
 
             if ($stmt->execute()) {
                 echo "<script>alert('Data updated successfully!');</script>";
@@ -113,7 +102,7 @@
             $subheading = "";
             $paragraph = "";
             $button = "";
-            $status = "";
+            $status = 0;
             $fileFullPath = "";
         }
     }
