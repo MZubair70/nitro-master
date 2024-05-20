@@ -94,7 +94,7 @@
                                             <label for="feature-button" class="form-label">Button Active / Deactive</label>
                                             <select class="form-select" id="feature-button" name="button">
                                                 <option value="1">Active</option>
-                                                <option value="0">Deactive</option>
+                                                <option value="0">Inactive</option>
                                             </select>
                                         </div>
 

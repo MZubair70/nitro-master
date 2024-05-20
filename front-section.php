@@ -135,7 +135,7 @@
                                             <label for="example-select" class="form-label">Button Active / Deactive</label>
                                             <select class="form-select" id="buttonSwitch" name="button_switch">
                                                 <option value="1" <?php if ($button_switch == 1) echo "selected"; ?>>Active</option>
-                                                <option value="0" <?php if ($button_switch == 0) echo "selected"; ?>>Deactive</option>
+                                                <option value="0" <?php if ($button_switch == 0) echo "selected"; ?>>Inactive</option>
                                             </select>
                                         </div>
 
