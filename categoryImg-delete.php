@@ -39,5 +39,5 @@ if (isset($_GET['id'])) {
 $conn->close(); // Close the database connection
 
 // Redirect back to the features list page
-echo "<script>window.location.href = 'features-section.php';</script>";
+echo "<script>window.location.href = 'categories-images.php';</script>";
 ?>
