@@ -22,10 +22,11 @@
         if (isset($_POST["button_switch"])) {
             $fieldsToUpdate[] = "button_switch = '{$_POST["button_switch"]}'";
         }
-        if (isset($_POST["status"])) {
-            $fieldsToUpdate[] = "status = '{$_POST["status"]}'";
-        }
-        
+
+        // Handle status switch
+        $status = isset($_POST["status"]) ? 1 : 0;
+        $fieldsToUpdate[] = "status = '{$status}'";
+
         // File upload handling
         if (!empty($_FILES["front_bg_img"]["name"])) {
             $targetDir = "imgs/";
@@ -40,10 +41,10 @@
                 if (move_uploaded_file($_FILES["front_bg_img"]["tmp_name"], $fileFullPath)) {
                     $fieldsToUpdate[] = "front_bg_img = '{$fileFullPath}'";
                 } else {
-                    echo "<script>alert('Error uploading file!');";
+                    echo "<script>alert('Error uploading file!');</script>";
                 }
             } else {
-                echo "<script>alert('Invalid file format!');";
+                echo "<script>alert('Invalid file format!');</script>";
             }
         }
         
@@ -138,24 +139,24 @@
                                             </select>
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label for="example-fileinput" class="form-label">Background Image</label>
-                                            <?php if (!empty($file_name)) : ?>
-                                                <p>Current File: <?php echo $file_name; ?></p>
-                                            <?php endif; ?>
-                                            <input type="file" id="frontBgImg" name="front_bg_img" class="form-control">
-                                        </div>
-
                                         <?php if (!empty($fileFullPath)) : ?>
                                             <div class="mb-3">
+                                                <label for="example-fileinput" class="form-label">Background Image</label>
+                                                <?php if (!empty($fileName)) : ?>
+                                                    <p>Current File: <?php echo $fileName; ?></p>
+                                                <?php endif; ?>
                                                 <img src="<?php echo $fileFullPath; ?>" alt="Uploaded Image" style="max-width: 100px;">
                                             </div>
                                         <?php endif; ?>
 
                                         <div class="mb-3">
+                                            <input type="file" id="frontBgImg" name="front_bg_img" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
                                             <div class="form-check form-switch form-switch-lg">
                                                 <label class="form-check-label" for="welcomeNoteSwitch">Section ON/OFF</label>
-                                                <input class="form-check-input" type="checkbox" id="toggle-front" name="status" <?php if ($status == 1) echo "checked"; ?>>
+                                                <input class="form-check-input" type="checkbox" id="toggle-front" name="status" value="1" <?php if ($status == 1) echo "checked"; ?>>
                                             </div>
                                         </div>
 

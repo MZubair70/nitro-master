@@ -34,13 +34,13 @@
         // Get the field(s) to update
         $fieldsToUpdate = array();
         if (isset($_POST["heading"])) {
-            $fieldsToUpdate[] = "about_heading = '{$_POST["heading"]}'";
+            $fieldsToUpdate[] = "about_heading = '{$conn->real_escape_string($_POST["heading"])}'";
         }
         if (isset($_POST["paragraph"])) {
-            $fieldsToUpdate[] = "about_paragraph = '{$_POST["paragraph"]}'";
+            $fieldsToUpdate[] = "about_paragraph = '{$conn->real_escape_string($_POST["paragraph"])}'";
         }
         if (isset($_POST["list"])) {
-            $fieldsToUpdate[] = "about_list = '{$_POST["list"]}'";
+            $fieldsToUpdate[] = "about_list = '{$conn->real_escape_string($_POST["list"])}'";
         }
         if ($_FILES["about_img"]["size"] > 0) {
             $targetDir = "imgs/";
@@ -62,6 +62,7 @@
             }
         }
         // Update the status field
+        $status = isset($_POST["status"]) ? 1 : 0;
         $fieldsToUpdate[] = "status = '{$status}'";
 
         // Construct the update query
@@ -144,8 +145,8 @@
 
                                         <div class="mb-3">
                                             <div class="form-check form-switch form-switch-lg">
-                                                <label class="form-check-label" for="welcomeNoteSwitch">Section ON/OFF</label>
-                                                <input class="form-check-input" type="checkbox" id="toggle-front" name="status" <?php echo $status == 1 ? 'checked' : ''; ?>>
+                                                <label class="form-check-label" for="toggle-front">Section ON/OFF</label>
+                                                <input class="form-check-input" type="checkbox" id="toggle-front" name="status" value="1" <?php echo $status == 1 ? 'checked' : ''; ?>>
                                             </div>
                                         </div>
 
