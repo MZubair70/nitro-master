@@ -4,7 +4,7 @@ require "include/db_conn.php"; // Include your database connection file
 
 // Check if user is not logged in, redirect to login page
 if (isset($_SESSION["user_id"])) {
-    header("Location: dashboard.php");
+    header("Location: front-section.php");
     exit();
 }
 
@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
             $_SESSION["user_id"] = $row["user_id"];
             $_SESSION["email"] = $row["email"];
             // Redirect to dashboard or wherever you want after login
-            header("Location: dashboard.php");
+            header("Location: front-section.php");
             exit();
         } else {
             $error = "Invalid email or password";

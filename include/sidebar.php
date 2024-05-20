@@ -28,14 +28,6 @@
         <li class="side-nav-title">Main</li>
 
         <li class="side-nav-item">
-            <a href="dashboard.php" class="side-nav-link">
-                <i class="ri-dashboard-3-line"></i>
-                <span class="badge bg-success float-end">9+</span>
-                <span> Dashboard </span>
-            </a>
-        </li>
-
-        <li class="side-nav-item">
             <a href="front-section.php" class="side-nav-link">
                 <i class="ri-dashboard-3-line"></i>
                 <span> Front Section </span>
