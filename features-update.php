@@ -152,7 +152,7 @@
                                             <label for="feature-button" class="form-label">Button Active / Deactive</label>
                                             <select class="form-select" id="feature-button" name="button">
                                                 <option value="1" <?php if ($button == 1) echo "selected"; ?>>Active</option>
-                                                <option value="0" <?php if ($button == 0) echo "selected"; ?>>Deactive</option>
+                                                <option value="0" <?php if ($button == 0) echo "selected"; ?>>Inactive</option>
                                             </select>
                                         </div>
 

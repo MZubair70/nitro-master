@@ -77,7 +77,7 @@ require 'include/db_conn.php';
                                                         echo '<h4><span class="badge bg-info">Active</span></h4>';
                                                     } else {
                                                         // If button is inactive
-                                                        echo '<h4><span class="badge bg-warning">Deactive</span></h4>';
+                                                        echo '<h4><span class="badge bg-warning">Inactive</span></h4>';
                                                     }
                                                     ?>
                                                 </td>
