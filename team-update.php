@@ -23,7 +23,9 @@ if (isset($_POST["submit"])) {
     $twit_link = $_POST["twit_link"] ?? '';
     $linkedin_link = $_POST["linkedin_link"] ?? '';
     $insta_link = $_POST["insta_link"] ?? '';
-    $links_status = isset($_POST["links_status"]) ? 1 : 0;
+    
+    // Check if links status is active or not
+    $links_status = isset($_POST["links_status"]) && $_POST["links_status"] == 1 ? 1 : 0;
     $status = isset($_POST["status"]) ? 1 : 0;
     
     // Initialize file path variable
@@ -151,7 +153,7 @@ if (isset($_POST["submit"])) {
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="socail-button" class="form-label">Social Buttons Active / Deactive</label>
+                                            <label for="socail-button" class="form-label">Social Buttons Active / Inactive</label>
                                             <select class="form-select" id="social-button" name="links_status">
                                                 <option value="1" <?php if ($links_status == 1) echo "selected"; ?>>Active</option>
                                                 <option value="0" <?php if ($links_status == 0) echo "selected"; ?>>Deactive</option>
