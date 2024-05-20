@@ -47,6 +47,7 @@ require 'include/db_conn.php';
                                         <th>S.No</th>
                                         <th>Member</th>
                                         <th>Position</th>
+                                        <th>Image</th>
                                         <th>Facebook</th>
                                         <th>Twitter</th>
                                         <th>LinkedIn</th>
@@ -69,6 +70,13 @@ require 'include/db_conn.php';
                                                 <td><?php echo $cnt++; ?></td>
                                                 <td><?php echo $row['member']; ?></td>
                                                 <td><?php echo $row['position']; ?></td>
+                                                <td>
+                                                    <?php if (!empty($row['member_img'])): ?>
+                                                        <img src="<?php echo htmlspecialchars($row['member_img']); ?>" alt="Member Image" style="max-width: 50px;">
+                                                    <?php else: ?>
+                                                        No image
+                                                    <?php endif; ?>
+                                                </td>
                                                 <td><?php echo $row['fb_link']; ?></td>
                                                 <td><?php echo $row['twit_link']; ?></td>
                                                 <td><?php echo $row['linkedin_link']; ?></td>
