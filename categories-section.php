@@ -73,7 +73,7 @@
                                                     <a href="categories-update.php?id=<?php echo $row['cat_id']; ?>" class="text-reset fs-16 px-1">
                                                         <i class="ri-settings-3-line"></i>
                                                     </a>
-                                                    <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['cat_id']; ?>);" class="text-reset fs-16 px-1">
+                                                    <a href="javascript:void(0);" onclick="confirmCatDelete(<?php echo $row['cat_id']; ?>);" class="text-reset fs-16 px-1">
                                                         <i class="ri-delete-bin-2-line"></i>
                                                     </a>
                                                 </td>
