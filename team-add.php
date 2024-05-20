@@ -113,7 +113,7 @@ if (isset($_POST["submit"])) {
                                             <label for="social-button" class="form-label">Social Buttons Active / Deactive</label>
                                             <select class="form-select" id="social-button" name="links_status">
                                                 <option value="1">Active</option>
-                                                <option value="0">Deactive</option>
+                                                <option value="0">Inactive</option>
                                             </select>
                                         </div>
 
