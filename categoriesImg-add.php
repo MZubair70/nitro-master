@@ -64,7 +64,7 @@ if (isset($_POST["submit"])) {
             <div class="row">
                 <div class="col-10">
                     <div class="page-title-box">
-                        <h4 class="page-title">Image Categories</h4>
+                        <h4 class="page-title">Add Images</h4>
                     </div>
                 </div>
             </div>
@@ -100,7 +100,7 @@ if (isset($_POST["submit"])) {
                                         <div class="mb-3">
                                             <div class="form-check form-switch form-switch-lg">
                                                 <label class="form-check-label" for="toggle-status">Status ON/OFF</label>
-                                                <input class="form-check-input" type="checkbox" id="toggle-status" name="status">
+                                                <input class="form-check-input" type="checkbox" checked id="toggle-status" name="status">
                                             </div>
                                         </div>
 

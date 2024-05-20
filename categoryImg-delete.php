@@ -18,7 +18,7 @@ if (isset($_GET['id'])) {
     $stmt = $conn->prepare($sql);
 
     if ($stmt) {
-        $stmt->bind_param("i", $catImg); // Bind the id parameter
+        $stmt->bind_param("i", $catImg_id); // Bind the id parameter
         if ($stmt->execute()) {
             // If the delete was successful
             echo "<script>alert('Image deleted successfully!');</script>";
