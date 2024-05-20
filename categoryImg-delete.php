@@ -24,7 +24,7 @@ if (isset($_GET['id'])) {
             echo "<script>alert('Image deleted successfully!');</script>";
         } else {
             // If there was an error during the delete
-            echo "<script>alert('Error deleting feature: " . $stmt->error . "');</script>";
+            echo "<script>alert('Error deleting image: " . $stmt->error . "');</script>";
         }
         $stmt->close();
     } else {
