@@ -41,7 +41,10 @@ require 'include/db_conn.php';
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table id="fixed-columns-datatable" class="table table-striped row-border order-column w-100">
+                            <div class="responsive-table-plugin">
+                                <div class="table-rep-plugin">
+                                    <div class="table-responsive" data-pattern="priority-columns">
+                                        <table id="tech-companies-1" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>S.No</th>
@@ -117,7 +120,10 @@ require 'include/db_conn.php';
                                     }
                                     ?>
                                 </tbody>
-                            </table>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div> <!-- end card body-->
                     </div> <!-- end card -->
                 </div><!-- end col-->

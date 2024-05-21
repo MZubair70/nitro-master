@@ -39,7 +39,7 @@ if (isset($_POST["submit"])) {
     }
 
     // Prepare SQL insert statement
-    $sql = "INSERT INTO categories_imgs (cat_img, cat_id, status) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO categories_imgs (cat_img, cat_name, status) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssi", $fileFullPath, $cat_id, $status);
 

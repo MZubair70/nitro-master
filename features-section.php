@@ -41,75 +41,81 @@ require 'include/db_conn.php';
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table id="fixed-columns-datatable" class="table table-striped row-border order-column w-100">
-                                <thead>
-                                    <tr>
-                                        <th>S.No</th>
-                                        <th>Heading</th>
-                                        <th>Sub - Heading</th>
-                                        <th>Paragraph</th>
-                                        <th>Button ON / OFF</th>
-                                        <th>Image</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $feature_data = "SELECT * FROM feature_section";
-                                    $result = $conn->query($feature_data);
-                                    $cnt = 1;
+                            <div class="responsive-table-plugin">
+                                <div class="table-rep-plugin">
+                                    <div class="table-responsive" data-pattern="priority-columns">
+                                        <table id="tech-companies-1" class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No</th>
+                                                    <th>Heading</th>
+                                                    <th>Sub - Heading</th>
+                                                    <th>Paragraph</th>
+                                                    <th>Button ON / OFF</th>
+                                                    <th>Image</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $feature_data = "SELECT * FROM feature_section";
+                                                $result = $conn->query($feature_data);
+                                                $cnt = 1;
 
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            ?>
-                                            <tr>
-                                                <td><?php echo $cnt++; ?></td>
-                                                <td><?php echo $row['fea_heading']; ?></td>
-                                                <td><?php echo $row['fea_subheading']; ?></td>
-                                                <td style='word-wrap: break-word; vertical-align: top;' width="40%">
-                                                    <?php echo $row['fea_para']; ?>
-                                                </td>
-                                                <td width="10%">
-                                                <?php 
-                                                    if ($row['fea_btn']) {
-                                                        // If button is active
-                                                        echo '<h4><span class="badge bg-info">Active</span></h4>';
-                                                    } else {
-                                                        // If button is inactive
-                                                        echo '<h4><span class="badge bg-warning">Inactive</span></h4>';
+                                                if ($result->num_rows > 0) {
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        ?>
+                                                        <tr>
+                                                            <td><?php echo $cnt++; ?></td>
+                                                            <td><?php echo $row['fea_heading']; ?></td>
+                                                            <td><?php echo $row['fea_subheading']; ?></td>
+                                                            <td style='word-wrap: break-word; vertical-align: top;' width="40%">
+                                                                <?php echo $row['fea_para']; ?>
+                                                            </td>
+                                                            <td width="10%">
+                                                            <?php 
+                                                                if ($row['fea_btn']) {
+                                                                    // If button is active
+                                                                    echo '<h4><span class="badge bg-info">Active</span></h4>';
+                                                                } else {
+                                                                    // If button is inactive
+                                                                    echo '<h4><span class="badge bg-warning">Inactive</span></h4>';
+                                                                }
+                                                                ?>
+                                                            </td>
+                                                            <td>
+                                                                <img src="<?php echo $row['fea_img']; ?>" alt="Feature Image" style="max-width: 50px;">
+                                                            </td>
+                                                            <td>
+                                                            <?php 
+                                                                if ($row['status'] == 1) {
+                                                                    // If status is active
+                                                                    echo '<h4><span class="badge bg-primary"> On </span></h4>';
+                                                                } else {
+                                                                    // If status is inactive
+                                                                    echo '<h4><span class="badge bg-danger"> Off </span></h4>';
+                                                                }
+                                                                ?>
+                                                                </td>
+                                                            <td width="10%">
+                                                                <a href="features-update.php?id=<?php echo $row['fea_id']; ?>" class="text-reset fs-16 px-1">
+                                                                    <i class="ri-settings-3-line"></i>
+                                                                </a>
+                                                                <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['fea_id']; ?>);" class="text-reset fs-16 px-1">
+                                                                    <i class="ri-delete-bin-2-line"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <?php
                                                     }
-                                                    ?>
-                                                </td>
-                                                <td>
-                                                    <img src="<?php echo $row['fea_img']; ?>" alt="Feature Image" style="max-width: 50px;">
-                                                </td>
-                                                <td>
-                                                <?php 
-                                                    if ($row['status'] == 1) {
-                                                        // If status is active
-                                                        echo '<h4><span class="badge bg-primary"> On </span></h4>';
-                                                    } else {
-                                                        // If status is inactive
-                                                        echo '<h4><span class="badge bg-danger"> Off </span></h4>';
-                                                    }
-                                                    ?>
-                                                    </td>
-                                                <td width="10%">
-                                                    <a href="features-update.php?id=<?php echo $row['fea_id']; ?>" class="text-reset fs-16 px-1">
-                                                        <i class="ri-settings-3-line"></i>
-                                                    </a>
-                                                    <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $row['fea_id']; ?>);" class="text-reset fs-16 px-1">
-                                                        <i class="ri-delete-bin-2-line"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div> <!-- end card body-->
                     </div> <!-- end card -->
                 </div><!-- end col-->

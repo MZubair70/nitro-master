@@ -39,55 +39,61 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table id="fixed-columns-datatable" class="table table-striped row-border order-column w-100">
-                                <thead>
-                                    <tr>
-                                        <th>S.No</th>
-                                        <th>Category Name</th>
-                                        <th>Image</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $category_data = "SELECT * FROM categories_imgs";
-                                    $result = $conn->query($category_data);
-                                    $cnt = 1;
+                            <div class="responsive-table-plugin">
+                                <div class="table-rep-plugin">
+                                    <div class="table-responsive" data-pattern="priority-columns">
+                                        <table id="tech-companies-1" class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No</th>
+                                                    <th>Category Name</th>
+                                                    <th>Image</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $category_data = "SELECT * FROM categories_imgs";
+                                                $result = $conn->query($category_data);
+                                                $cnt = 1;
 
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            ?>
-                                            <tr>
-                                                <td><?php echo $cnt++; ?></td>
-                                                <td><?php echo $row['cat_name']; ?></td>
-                                                <td>
-                                                    <img src="<?php echo $row['cat_img']; ?>" alt="Category Image" style="max-width: 50px;">
-                                                </td>
-                                                <td>
-                                                    <?php 
-                                                    if ($row['status'] == 1) {
-                                                        echo '<h4><span class="badge bg-primary"> Active </span></h4>';
-                                                    } else {
-                                                        echo '<h4><span class="badge bg-danger"> Inactive </span></h4>';
+                                                if ($result->num_rows > 0) {
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        ?>
+                                                        <tr>
+                                                            <td><?php echo $cnt++; ?></td>
+                                                            <td><?php echo $row['cat_name']; ?></td>
+                                                            <td>
+                                                                <img src="<?php echo $row['cat_img']; ?>" alt="Category Image" style="max-width: 50px;">
+                                                            </td>
+                                                            <td>
+                                                                <?php 
+                                                                if ($row['status'] == 1) {
+                                                                    echo '<h4><span class="badge bg-primary"> Active </span></h4>';
+                                                                } else {
+                                                                    echo '<h4><span class="badge bg-danger"> Inactive </span></h4>';
+                                                                }
+                                                                ?>
+                                                            </td>
+                                                            <td>
+                                                                <a href="categoriesImg-update.php?id=<?php echo $row['catImg_id']; ?>" class="text-reset fs-16 px-1">
+                                                                    <i class="ri-settings-3-line"></i>
+                                                                </a>
+                                                                <a href="javascript:void(0);" onclick="confirmCatImgDelete(<?php echo $row['catImg_id']; ?>);" class="text-reset fs-16 px-1">
+                                                                    <i class="ri-delete-bin-2-line"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <?php
                                                     }
-                                                    ?>
-                                                </td>
-                                                <td>
-                                                    <a href="categoriesImg-update.php?id=<?php echo $row['catImg_id']; ?>" class="text-reset fs-16 px-1">
-                                                        <i class="ri-settings-3-line"></i>
-                                                    </a>
-                                                    <a href="javascript:void(0);" onclick="confirmCatImgDelete(<?php echo $row['catImg_id']; ?>);" class="text-reset fs-16 px-1">
-                                                        <i class="ri-delete-bin-2-line"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div> <!-- end card body-->
                     </div> <!-- end card -->
                 </div><!-- end col-->

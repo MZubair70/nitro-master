@@ -24,7 +24,7 @@ if (isset($_GET['id'])) {
     $cat_result = $conn->query($cat_sql);
 
     if (isset($_POST["submit"])) {
-        $cat_id = $_POST["cat_id"] ?? '';
+        $cat_name = $_POST["cat_name"] ?? '';
         $status = isset($_POST["status"]) ? 1 : 0;
 
         // Check if file is uploaded
@@ -50,7 +50,7 @@ if (isset($_GET['id'])) {
         }
 
         // Prepare SQL update statement
-        $sql = "UPDATE categories_imgs SET cat_img = ?, cat_id = ?, status = ? WHERE catImg_id = ?";
+        $sql = "UPDATE categories_imgs SET cat_img = ?, cat_name = ?, status = ? WHERE catImg_id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssii", $fileFullPath, $cat_id, $status, $catImg_id);
 
@@ -106,13 +106,13 @@ if (isset($_GET['id'])) {
 
                                         <div class="mb-3">
                                             <label for="cat_id" class="form-label">Category:</label>
-                                            <select id="cat_id" name="cat_id" class="form-control">
+                                            <select id="cat_id" name="cat_name" class="form-control">
                                                 <option value="">Select Category</option>
                                                 <?php 
                                                     // Loop through the result set to create options for each category
                                                     if ($cat_result->num_rows > 0) {
                                                         while ($cat_row = $cat_result->fetch_assoc()) {
-                                                            $selected = $row['cat_id'] == $cat_row['cat_id'] ? 'selected' : '';
+                                                            $selected = $row['cat_name'] == $cat_row['cat_name'] ? 'selected' : '';
                                                             echo "<option value='".$cat_row['cat_name']."' $selected>".$cat_row['cat_name']."</option>";
                                                         }
                                                     }
