@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 
 if (!isset($_SESSION["user_id"])) {
@@ -12,7 +12,16 @@ if (isset($_GET['id'])) {
     $catImg_id = $_GET['id'];
 
     // Fetch existing data
-    $sql = "SELECT * FROM categories_imgs WHERE catImg_id = ?";
+    $sql = "SELECT
+            categories_imgs.catImg_id,
+            categories_imgs.cat_img,
+            categories_imgs.cat_id,
+            categories_section.cat_name,
+            categories_imgs.`status`
+            FROM
+            categories_imgs
+            INNER JOIN categories_section ON categories_imgs.cat_id = categories_section.cat_id
+            WHERE catImg_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $catImg_id);
     $stmt->execute();
@@ -24,7 +33,7 @@ if (isset($_GET['id'])) {
     $cat_result = $conn->query($cat_sql);
 
     if (isset($_POST["submit"])) {
-        $cat_name = $_POST["cat_name"] ?? '';
+        $cat_id = $_POST["cat_name"] ?? '';
         $status = isset($_POST["status"]) ? 1 : 0;
 
         // Check if file is uploaded
@@ -50,7 +59,7 @@ if (isset($_GET['id'])) {
         }
 
         // Prepare SQL update statement
-        $sql = "UPDATE categories_imgs SET cat_img = ?, cat_name = ?, status = ? WHERE catImg_id = ?";
+        $sql = "UPDATE categories_imgs SET cat_img = ?, cat_id = ?, status = ? WHERE catImg_id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssii", $fileFullPath, $cat_id, $status, $catImg_id);
 
@@ -112,8 +121,8 @@ if (isset($_GET['id'])) {
                                                     // Loop through the result set to create options for each category
                                                     if ($cat_result->num_rows > 0) {
                                                         while ($cat_row = $cat_result->fetch_assoc()) {
-                                                            $selected = $row['cat_name'] == $cat_row['cat_name'] ? 'selected' : '';
-                                                            echo "<option value='".$cat_row['cat_name']."' $selected>".$cat_row['cat_name']."</option>";
+                                                            $selected = $row['cat_id'] == $cat_row['cat_id'] ? 'selected' : '';
+                                                            echo "<option value='".$cat_row['cat_id']."' $selected>".$cat_row['cat_name']."</option>";
                                                         }
                                                     }
                                                 ?>

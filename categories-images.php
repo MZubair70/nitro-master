@@ -54,7 +54,14 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $category_data = "SELECT * FROM categories_imgs";
+                                                $category_data = "SELECT
+                                                categories_imgs.catImg_id,
+                                                categories_imgs.cat_img,
+                                                categories_section.cat_name,
+                                                categories_imgs.`status`
+                                                FROM
+                                                categories_imgs
+                                                INNER JOIN categories_section ON categories_imgs.cat_id = categories_section.cat_id";
                                                 $result = $conn->query($category_data);
                                                 $cnt = 1;
 

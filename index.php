@@ -324,51 +324,57 @@ $result->free_result();
 ?>
 
 <?php
-  $cat_query = "SELECT * FROM categories_section WHERE status = 1";
-  $cat_result = $conn->query($cat_query);
+// Database connection (replace with your actual connection details)
+// Assuming $conn is your connection variable
 
-  $img_query = "SELECT * FROM categories_imgs WHERE status = 1";
-  $img_result = $conn->query($img_query);
+// Fetch active category sections
+$cat_query = "SELECT * FROM categories_section WHERE status = 1";
+$cat_result = $conn->query($cat_query);
+
+// Fetch images for active categories
+$img_query = "
+    SELECT ci.cat_img, cs.cat_name 
+    FROM categories_imgs ci 
+    JOIN categories_section cs 
+    ON ci.cat_id = cs.cat_id 
+    WHERE cs.status = 1 AND ci.status = 1";
+$img_result = $conn->query($img_query);
 ?>
 
-    <section class="site-section" id="portfolio-section">
-      
-
-      <div class="container">
-
-        <div class="row mb-3">
-          <div class="col-12 text-center" data-aos="fade">
-            <h2 class="section-title mb-3">Portfolio</h2>
-          </div>
-        </div>
-
-        <div class="row justify-content-center mb-5" data-aos="fade-up">
-          <div id="filters" class="filters text-center button-group col-md-7">
-            <button class="btn btn-primary active" data-filter="*">All</button>
-            <?php
-              while ($cat_row = $cat_result->fetch_assoc()){
-                echo '<button class="btn btn-primary" data-filter=".' . $cat_row['cat_name'] . '">' . ucfirst($cat_row['cat_name']) . '</button>';  
-              }
-            ?>
-          </div>
-        </div>  
-        
-        <div id="posts" class="row no-gutter">
-          <?php
-          // Display images
-          while ($image_row = mysqli_fetch_assoc($img_result)) {
-            echo '<div class="item ' . $image_row['cat_name'] . ' col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">';
-            echo '<a href="' . $image_row['cat_img'] . '" class="item-wrap fancybox" data-fancybox="gallery2">';
-            echo '<span class="icon-search2"></span>';
-            echo '<img class="img-fluid" src="' . $image_row['cat_img'] . '">';
-            echo '</a>';
-            echo '</div>';
-          }
-          ?>
-        </div>
+<section class="site-section" id="portfolio-section">
+  <div class="container">
+    <div class="row mb-3">
+      <div class="col-12 text-center" data-aos="fade">
+        <h2 class="section-title mb-3">Portfolio</h2>
       </div>
+    </div>
+    <div class="row justify-content-center mb-5" data-aos="fade-up">
+      <div id="filters" class="filters text-center button-group col-md-7">
+        <button class="btn btn-primary active" data-filter="*">All</button>
+        <?php
+        // Display category buttons
+        while ($cat_row = $cat_result->fetch_assoc()) {
+          echo '<button class="btn btn-primary" data-filter=".' . $cat_row['cat_name'] . '">' . ucfirst($cat_row['cat_name']) . '</button>';
+        }
+        ?>
+      </div>
+    </div>
+    <div id="posts" class="row no-gutter">
+      <?php
+      // Display images
+      while ($image_row = $img_result->fetch_assoc()) {
+        echo '<div class="item ' . $image_row['cat_name'] . ' col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">';
+        echo '<a href="' . $image_row['cat_img'] . '" class="item-wrap fancybox" data-fancybox="gallery2">';
+        echo '<span class="icon-search2"></span>';
+        echo '<img class="img-fluid" src="' . $image_row['cat_img'] . '">';
+        echo '</a>';
+        echo '</div>';
+      }
+      ?>
+    </div>
+  </div>
+</section>
 
-    </section>
     
   
     <section class="site-section border-bottom bg-light" id="services-section">
