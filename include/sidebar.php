@@ -82,10 +82,10 @@
             <div class="collapse" id="sidebarBlogSection">
                 <ul class="side-nav-second-level">
                     <li>
-                        <a href="categories-section.php">Manage Categories</a>
+                        <a href="blog-cat.php">Manage Blog Categories</a>
                     </li>
                     <li>
-                        <a href="categories-images.php">Categories Images</a>
+                        <a href="blog-section.php">Manage Blogs</a>
                     </li>
                 </ul>
             </div>

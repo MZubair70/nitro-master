@@ -1,4 +1,6 @@
-<?php require 'include/db_conn.php'; ?>
+<?php require 'include/db_conn.php';
+  error_reporting(0);
+?>
 <!doctype html>
 <html lang="en">
   <head>

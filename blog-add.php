@@ -1,58 +1,66 @@
 <?php 
-    session_start();
+session_start();
 
-    if (!isset($_SESSION["user_id"])) {
-        header("Location: admin.php");
-        exit();
+if (!isset($_SESSION["user_id"])) {
+    header("Location: admin.php");
+    exit();
+}
+
+require 'include/db_conn.php';
+
+// Fetch categories from the database
+$categories = [];
+$sql = "SELECT blogImg_id, blog_cat FROM blog_categories WHERE status = 1";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $categories[] = $row;
     }
+}
 
-    require 'include/db_conn.php';
+if (isset($_POST["submit"])) {
+    $title = $_POST["title"] ?? '';
+    $blog_para = nl2br($_POST["blog_para"]) ?? ''; // Convert newlines to HTML line breaks
+    $upload_by = $_POST["upload_by"] ?? '';
+    $status = isset($_POST["status"]) ? 1 : 0;
+    $category_id = $_POST["category_id"] ?? '';
 
-    if (isset($_POST["submit"])) {
-        $title = $_POST["title"] ?? '';
-        $blog_para = nl2br($_POST["blog_para"]) ?? ''; // Convert newlines to HTML line breaks
-        $upload_by = $_POST["upload_by"] ?? '';
-        $status = isset($_POST["status"]) ? 1 : 0;
-        
-        // Check if file is uploaded
-        $fileFullPath = '';
-        if (!empty($_FILES["blog_img"]["name"])) {
-            $targetDir = "imgs/";
-            $fileName = basename($_FILES["blog_img"]["name"]);
-            $fileFullPath = $targetDir . $fileName;
-            $fileType = pathinfo($fileFullPath, PATHINFO_EXTENSION);
+    // Check if file is uploaded
+    $fileFullPath = '';
+    if (!empty($_FILES["blog_img"]["name"])) {
+        $targetDir = "imgs/";
+        $fileName = basename($_FILES["blog_img"]["name"]);
+        $fileFullPath = $targetDir . $fileName;
+        $fileType = pathinfo($fileFullPath, PATHINFO_EXTENSION);
 
-            // Check if file type is allowed
-            $allowedTypes = array('jpg', 'png', 'jpeg', 'gif');
-            if (in_array($fileType, $allowedTypes)) {
-                // Move the uploaded file to the desired location
-                if (!move_uploaded_file($_FILES["blog_img"]["tmp_name"], $fileFullPath)) {
-                    echo "<script>alert('Error uploading file!');</script>";
-                }
-            } else {
-                echo "<script>alert('Invalid file format!');</script>";
+        // Check if file type is allowed
+        $allowedTypes = array('jpg', 'png', 'jpeg', 'gif');
+        if (in_array($fileType, $allowedTypes)) {
+            // Move the uploaded file to the desired location
+            if (!move_uploaded_file($_FILES["blog_img"]["tmp_name"], $fileFullPath)) {
+                echo "<script>alert('Error uploading file!');</script>";
             }
-        }
-
-        // Prepare SQL insert statement
-        $sql = "INSERT INTO blog_section (title, blog_para, upload_by, status, blog_img) VALUES (?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssis", $title, $blog_para, $upload_by, $status, $fileFullPath);
-
-        if ($stmt->execute()) {
-            echo "<script>alert('Blog post added successfully!');</script>";
-            echo "<script>window.location.href = 'blog-section.php';</script>";
         } else {
-            echo "Error: " . $conn->error;
+            echo "<script>alert('Invalid file format!');</script>";
         }
-
-        $stmt->close();
-        $conn->close();
     }
+
+    // Prepare SQL insert statement
+    $sql = "INSERT INTO blog_section (title, blog_para, upload_by, status, blog_img, blogcat_id) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssisi", $title, $blog_para, $upload_by, $status, $fileFullPath, $category_id);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Blog post added successfully!');</script>";
+        echo "<script>window.location.href = 'blog-section.php';</script>";
+    } else {
+        echo "Error: " . $conn->error;
+    }
+
+    $stmt->close();
+    $conn->close();
+}
 ?>
-
-<!-- Your HTML form goes here -->
-
 
 <?php include 'include/header.php'; ?>
 
@@ -95,6 +103,16 @@
                                         <div class="mb-3">
                                             <label for="blog-img" class="form-label">Blog Image:</label>
                                             <input type="file" id="blog-img" name="blog_img" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="category_id" class="form-label">Category:</label>
+                                            <select id="category_id" name="category_id" class="form-control">
+                                                <option value="">Select Category</option>
+                                                <?php foreach ($categories as $category): ?>
+                                                    <option value="<?php echo $category['blogImg_id']; ?>"><?php echo $category['blog_cat']; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
 
                                         <div class="mb-3">

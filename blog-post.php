@@ -211,13 +211,38 @@
                   <?php echo nl2br($row['blog_para']); ?>
                 </p>
               </div>
-              <!-- <div class="pt-5">
-                <p>
-                  Categories: <a href="#">Design</a>,
-                  <a href="#">Events</a> Tags: <a href="#">#html</a>,
-                  <a href="#">#trends</a>
-                </p>
-              </div> -->
+
+              <?php
+$blog_cat_query = "SELECT
+                      blog_categories.blog_cat
+                    FROM
+                      blog_section
+                    INNER JOIN
+                      blog_categories
+                    ON
+                      blog_section.blogcat_id = blog_categories.blogImg_id
+                    WHERE
+                      blog_section.blog_id = $id";
+
+$blog_cat_result = $conn->query($blog_cat_query);
+if ($blog_cat_result->num_rows > 0) {
+    $categories = array(); // Array to store categories
+    while ($blog_cat_row = $blog_cat_result->fetch_assoc()) {
+        $categories[] = $blog_cat_row['blog_cat'];
+    }
+?>
+<div class="pt-5">
+    <p>
+        Categories:
+        <?php foreach ($categories as $category): ?>
+            <a href="#"><?php echo htmlspecialchars($category); ?></a>
+        <?php endforeach; ?>
+    </p>
+</div>
+<?php
+}
+?>
+
 
               <!-- <div class="pt-5">
                 <h3 class="mb-5">6 Comments</h3>
@@ -398,8 +423,8 @@
                 </div>
               </div> -->
             </div>
-            <!-- <div class="col-md-4 sidebar">
-              <div class="sidebar-box">
+            <div class="col-md-4 sidebar">
+              <!-- <div class="sidebar-box">
                 <form action="#" class="search-form">
                   <div class="form-group">
                     <span class="icon fa fa-search"></span>
@@ -410,28 +435,52 @@
                     />
                   </div>
                 </form>
-              </div>
-              <div class="sidebar-box">
-                <div class="categories">
-                  <h3>Categories</h3>
-                  <li>
-                    <a href="#">Creatives <span>(12)</span></a>
-                  </li>
-                  <li>
-                    <a href="#">News <span>(22)</span></a>
-                  </li>
-                  <li>
-                    <a href="#">Design <span>(37)</span></a>
-                  </li>
-                  <li>
-                    <a href="#">HTML <span>(42)</span></a>
-                  </li>
-                  <li>
-                    <a href="#">Web Development <span>(14)</span></a>
-                  </li>
-                </div>
-              </div>
-              <div class="sidebar-box">
+              </div> -->
+              <?php
+
+
+// Fetch categories with post counts from the database
+$categories = [];
+$sql = "
+    SELECT 
+        bc.blogImg_id, 
+        bc.blog_cat, 
+        COUNT(bs.blogcat_id) AS post_count 
+    FROM 
+        blog_categories bc 
+    LEFT JOIN 
+        blog_section bs 
+    ON 
+        bc.blogImg_id = bs.blogcat_id 
+    WHERE 
+        bc.status = 1 
+    GROUP BY 
+        bc.blogImg_id, bc.blog_cat
+";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $categories[] = $row;
+    }
+}
+
+?>
+
+<div class="sidebar-box">
+    <div class="categories">
+        <h3>Categories</h3>
+        <?php foreach ($categories as $category): ?>
+            <li>
+                <a href="#">
+                    <?php echo htmlspecialchars($category['blog_cat']); ?> 
+                    <span>(<?php echo $category['post_count']; ?>)</span>
+                </a>
+            </li>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+            <!--  <div class="sidebar-box">
                 <img
                   src="assets-nitro/images/person_1.jpg"
                   alt="Image placeholder"
