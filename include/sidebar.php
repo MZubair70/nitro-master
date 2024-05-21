@@ -74,10 +74,21 @@
         </li>
 
         <li class="side-nav-item">
-            <a href="blog-section.php" class="side-nav-link">
-                <i class="ri-dashboard-3-line"></i>
+            <a data-bs-toggle="collapse" href="#sidebarBlogSection" aria-expanded="false" aria-controls="sidebarBlogSection" class="side-nav-link">
+                <i class="ri-pages-line"></i>
                 <span> Blog Section </span>
+                <span class="menu-arrow"></span>
             </a>
+            <div class="collapse" id="sidebarBlogSection">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="categories-section.php">Manage Categories</a>
+                    </li>
+                    <li>
+                        <a href="categories-images.php">Categories Images</a>
+                    </li>
+                </ul>
+            </div>
         </li>
 
     </ul>
