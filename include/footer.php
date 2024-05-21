@@ -74,6 +74,11 @@
                 window.location.href = "categoryImg-delete.php?id=" + id;
             }
         }
+        function confirmBlogDelete(id) {
+            if (confirm("Are you sure you want to delete this blog?")) {
+                window.location.href = "blog-delete.php?id=" + id;
+            }
+        }
     </script>
 
 </body>
