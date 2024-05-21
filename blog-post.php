@@ -203,9 +203,14 @@
                   </figure>
                 </div> -->
               </div>
-              <p>
-              <?php echo nl2br($row['blog_para']); ?>
-              </p>
+              <h2>
+              <strong><?php echo nl2br($row['title']); ?></strong>
+              </h2>
+              <div class="mt-4">
+                <p>
+                  <?php echo nl2br($row['blog_para']); ?>
+                </p>
+              </div>
               <!-- <div class="pt-5">
                 <p>
                   Categories: <a href="#">Design</a>,
