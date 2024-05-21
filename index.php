@@ -686,52 +686,45 @@ $img_result = $conn->query($img_query);
     
     
 
-    <section class="site-section" id="blog-section">
-      <div class="container">
-        <div class="row mb-5">
-          <div class="col-12 text-center" data-aos="fade">
-            <h2 class="section-title mb-3">Our Blog</h2>
-          </div>
-        </div>
+    <?php
+    // Fetch blog posts from database
+    $sql = "SELECT * FROM blog_section WHERE status = 1 ORDER BY publish_date DESC";
+    $result = $conn->query($sql);
+?>
 
-        <div class="row">
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4" data-aos="fade-up" data-aos-delay="">
-            <div class="h-entry">
-              <a href="single.html">
-                <img src="assets-nitro/images/img_1.jpg" alt="Image" class="img-fluid">
-              </a>
-              <h2 class="font-size-regular"><a href="#">Where Do You Learn HTML & CSS in 2019?</a></h2>
-              <div class="meta mb-4">Ham Brook <span class="mx-2">&bullet;</span> Jan 18, 2019<span class="mx-2">&bullet;</span> <a href="#">News</a></div>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus eligendi nobis ea maiores sapiente veritatis reprehenderit suscipit quaerat rerum voluptatibus a eius.</p>
-              <p><a href="#">Continue Reading...</a></p>
-            </div> 
-          </div>
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="h-entry">
-              <a href="single.html">
-                <img src="assets-nitro/images/img_4.jpg" alt="Image" class="img-fluid">
-              </a>
-              <h2 class="font-size-regular"><a href="#">Where Do You Learn HTML & CSS in 2019?</a></h2>
-              <div class="meta mb-4">James Phelps <span class="mx-2">&bullet;</span> Jan 18, 2019<span class="mx-2">&bullet;</span> <a href="#">News</a></div>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus eligendi nobis ea maiores sapiente veritatis reprehenderit suscipit quaerat rerum voluptatibus a eius.</p>
-              <p><a href="#">Continue Reading...</a></p>
+<?php if ($result->num_rows > 0): ?> <!-- Check if there are blog posts -->
+    <section class="site-section" id="blog-section">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center" data-aos="fade">
+                    <h2 class="section-title mb-3">Our Blog</h2>
+                </div>
             </div>
-          </div>
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="h-entry">
-              <a href="single.html">
-                <img src="assets-nitro/images/img_3.jpg" alt="Image" class="img-fluid">
-              </a>
-              <h2 class="font-size-regular"><a href="#">Where Do You Learn HTML & CSS in 2019?</a></h2>
-              <div class="meta mb-4">James Phelps <span class="mx-2">&bullet;</span> Jan 18, 2019<span class="mx-2">&bullet;</span> <a href="#">News</a></div>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus eligendi nobis ea maiores sapiente veritatis reprehenderit suscipit quaerat rerum voluptatibus a eius.</p>
-              <p><a href="#">Continue Reading...</a></p>
-            </div> 
-          </div>
-          
+
+            <div class="row">
+                <?php
+                    // Loop through each blog post
+                    while ($row = $result->fetch_assoc()) {
+                ?>
+                        <div class="col-md-6 col-lg-4 mb-4 mb-lg-4" data-aos="fade-up" data-aos-delay="">
+                            <div class="h-entry">
+                                <a href="blog-post.php?id=<?php echo $row['blog_id']; ?>">
+                                    <img src="<?php echo $row['blog_img']; ?>" alt="Image" class="img-fluid">
+                                </a>
+                                <h2 class="font-size-regular"><a href="#"><?php echo $row['title']; ?></a></h2>
+                                <div class="meta mb-4"><?php echo $row['upload_by']; ?><span class="mx-2">&bullet;</span><?php echo $row['publish_date']; ?><!--<span class="mx-2">&bullet;</span> <a href="#">News</a>--></div>
+                                <p><?php echo substr($row['blog_para'], 0, 150) . '...'; ?></p> <!-- Shortened paragraph -->
+                                <p><a href="blog-post.php?id=<?php echo $row['blog_id']; ?>">Continue Reading...</a></p>
+                            </div> 
+                        </div>
+                <?php
+                    }
+                ?>
+            </div>
         </div>
-      </div>
     </section>
+<?php endif; ?>
+
 
    
 
