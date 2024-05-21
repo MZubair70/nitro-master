@@ -59,7 +59,7 @@
           <div class="row align-items-center">
             <div class="col-6 col-xl-2">
               <h1 class="mb-0 site-logo">
-                <a href="index.html" class="h2 mb-0"
+                <a href="index.php" class="h2 mb-0"
                   >Nitro<span class="text-primary">.</span>
                 </a>
               </h1>
@@ -74,25 +74,25 @@
                   class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block"
                 >
                   <li>
-                    <a href="index.html#home-section" class="nav-link">Home</a>
+                    <a href="index.php#home-section" class="nav-link">Home</a>
                   </li>
                   <li class="has-children">
-                    <a href="index.html#about-section" class="nav-link"
+                    <a href="index.php#about-section" class="nav-link"
                       >About Us</a
                     >
                     <ul class="dropdown">
                       <li>
-                        <a href="index.html#team-section" class="nav-link"
+                        <a href="index.php#team-section" class="nav-link"
                           >Team</a
                         >
                       </li>
                       <li>
-                        <a href="index.html#pricing-section" class="nav-link"
+                        <a href="index.php#pricing-section" class="nav-link"
                           >Pricing</a
                         >
                       </li>
                       <li>
-                        <a href="index.html#faq-section" class="nav-link"
+                        <a href="index.php#faq-section" class="nav-link"
                           >FAQ</a
                         >
                       </li>
@@ -108,27 +108,27 @@
                   </li>
 
                   <li>
-                    <a href="index.html#portfolio-section" class="nav-link"
+                    <a href="index.php#portfolio-section" class="nav-link"
                       >Portfolio</a
                     >
                   </li>
                   <li>
-                    <a href="index.html#services-section" class="nav-link"
+                    <a href="index.php#services-section" class="nav-link"
                       >Services</a
                     >
                   </li>
                   <li>
-                    <a href="index.html#testimonials-section" class="nav-link"
+                    <a href="index.php#testimonials-section" class="nav-link"
                       >Testimonials</a
                     >
                   </li>
                   <li>
-                    <a href="index.html#blog-section" class="nav-link active"
+                    <a href="index.php#blog-section" class="nav-link active"
                       >Blog</a
                     >
                   </li>
                   <li>
-                    <a href="index.html#contact-section" class="nav-link"
+                    <a href="index.php#contact-section" class="nav-link"
                       >Contact</a
                     >
                   </li>
