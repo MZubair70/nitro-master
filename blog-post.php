@@ -1,4 +1,6 @@
-<?php require 'include/db_conn.php'; ?>
+<?php require 'include/db_conn.php';
+  $id = $_GET['id'];
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -151,22 +153,24 @@
       
       <?php
     // Fetch blog posts from database
-    $sql = "SELECT * FROM blog_section WHERE status = 1 ORDER BY publish_date DESC";
+    $sql = "SELECT * FROM blog_section WHERE status = 1 AND blog_id = $id ORDER BY publish_date DESC";
     $result = $conn->query($sql);
+
+    while ($row = $result->fetch_assoc()) {
 ?>
 
       <div
         class="site-blocks-cover overlay"
-        style="background-image: url(assets-nitro/images/img_1.jpg)"
+        style="background-image: url(<?php echo $row['blog_img'] ?>)"
         data-aos="fade"
       >
         <div class="container">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-6 mt-lg-5 text-center">
-              <h1>Where Do You Learn HTML & CSS in 2019?</h1>
+              <h1><?php echo $row['title']; ?></h1>
               <p class="post-meta">
-                March 21, 2019 &bull; Posted by <a href="#">Admin</a> in
-                <a href="#">Events</a>
+                <?php echo $row['publish_date'] ?> &bull; Posted by <a href="#"><?php echo $row['upload_by'] ?></a> <!--in
+                <a href="#">Events</a> -->
               </p>
             </div>
           </div>
@@ -178,7 +182,7 @@
           <div class="row">
             <div class="col-md-8 blog-content">
               <div class="row mb-5">
-                <div class="col-lg-6">
+                <!-- <div class="col-lg-6">
                   <figure>
                     <img
                       src="assets-nitro/images/img_3.jpg"
@@ -197,88 +201,20 @@
                     />
                     <figcaption>This is an image caption</figcaption>
                   </figure>
-                </div>
+                </div> -->
               </div>
-              <p class="lead">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Assumenda nihil aspernatur nemo sunt, qui, harum repudiandae
-                quisquam eaque dolore itaque quod tenetur quo quos labore?
-              </p>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae
-                expedita cumque necessitatibus ducimus debitis totam, quasi
-                praesentium eveniet tempore possimus illo esse, facilis?
-                Corrupti possimus quae ipsa pariatur cumque, accusantium tenetur
-                voluptatibus incidunt reprehenderit, quidem repellat sapiente,
-                id, earum obcaecati.
+              <?php echo nl2br($row['blog_para']); ?>
               </p>
-
-              <blockquote>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Provident vero tempora aliquam excepturi labore, ad soluta
-                  voluptate necessitatibus. Nulla error beatae, quam, facilis
-                  suscipit quaerat aperiam minima eveniet quis placeat.
-                </p>
-              </blockquote>
-
-              <p>
-                Eveniet deleniti accusantium nulla natus nobis nam asperiores
-                ipsa minima laudantium vero cumque cupiditate ipsum ratione
-                dicta, expedita quae, officiis provident harum nisi! Esse
-                eligendi ab molestias, quod nostrum hic saepe repudiandae non.
-                Suscipit reiciendis tempora ut, saepe temporibus nemo.
-              </p>
-              <p>
-                Accusamus, temporibus, ullam. Voluptate consectetur laborum
-                totam sunt culpa repellat, dolore voluptas. Quaerat cum ducimus
-                aut distinctio sit, facilis corporis ab vel alias, voluptas
-                aliquam, expedita molestias quisquam sequi eligendi nobis ea
-                error omnis consequatur iste deleniti illum, dolorum odit.
-              </p>
-              <p>
-                In adipisci corporis at delectus! Cupiditate, voluptas, in
-                architecto odit id error reprehenderit quam quibusdam excepturi
-                distinctio dicta laborum deserunt qui labore dignissimos
-                necessitatibus reiciendis tenetur corporis quas explicabo
-                exercitationem suscipit. Nisi quo nulla, nihil harum obcaecati
-                vel atque quos.
-              </p>
-              <p>
-                Amet sint explicabo maxime accusantium qui dicta enim quia,
-                nostrum id libero voluptates quae suscipit dolor quam tenetur
-                dolores inventore illo laborum, corporis non ex, debitis quidem
-                obcaecati! Praesentium maiores illo atque error! Earum, et,
-                fugit. Sint, delectus molestiae. Totam.
-              </p>
-
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa
-                iste, repudiandae facere aperiam sapiente, officia delectus
-                soluta molestiae nihil corporis animi quos ratione qui labore?
-                Sint eaque perspiciatis minus illum.
-              </p>
-              <p>
-                Consectetur porro odio quod iure quaerat cupiditate similique,
-                dolor reprehenderit molestias provident, esse dolorum omnis
-                architecto magni amet corrupti neque ratione sunt beatae
-                perspiciatis? Iste pariatur omnis sed ut itaque.
-              </p>
-              <p>
-                Id similique, rem ipsam accusantium iusto dolores sit velit ex
-                quas ea atque, molestiae. Sint, sed. Quisquam, suscipit!
-                Quisquam quibusdam maiores fugiat eligendi eius consequuntur,
-                molestiae saepe commodi expedita nemo!
-              </p>
-              <div class="pt-5">
+              <!-- <div class="pt-5">
                 <p>
                   Categories: <a href="#">Design</a>,
                   <a href="#">Events</a> Tags: <a href="#">#html</a>,
                   <a href="#">#trends</a>
                 </p>
-              </div>
+              </div> -->
 
-              <div class="pt-5">
+              <!-- <div class="pt-5">
                 <h3 class="mb-5">6 Comments</h3>
                 <ul class="comment-list">
                   <li class="comment">
@@ -417,10 +353,10 @@
                       <p><a href="#" class="reply">Reply</a></p>
                     </div>
                   </li>
-                </ul>
+                </ul> -->
                 <!-- END comment-list -->
 
-                <div class="comment-form-wrap pt-5">
+                <!-- <div class="comment-form-wrap pt-5">
                   <h3 class="mb-5">Leave a comment</h3>
                   <form action="#" class="p-5 bg-light">
                     <div class="form-group">
@@ -455,9 +391,9 @@
                     </div>
                   </form>
                 </div>
-              </div>
+              </div> -->
             </div>
-            <div class="col-md-4 sidebar">
+            <!-- <div class="col-md-4 sidebar">
               <div class="sidebar-box">
                 <form action="#" class="search-form">
                   <div class="form-group">
@@ -515,10 +451,12 @@
                   similique, inventore eos fugit cupiditate numquam!
                 </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </section>
+
+    <?php }  ?>
 
       <footer class="site-footer">
         <div class="container">

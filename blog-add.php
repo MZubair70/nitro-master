@@ -10,7 +10,7 @@
 
     if (isset($_POST["submit"])) {
         $title = $_POST["title"] ?? '';
-        $blog_para = $_POST["blog_para"] ?? '';
+        $blog_para = nl2br($_POST["blog_para"]) ?? ''; // Convert newlines to HTML line breaks
         $upload_by = $_POST["upload_by"] ?? '';
         $status = isset($_POST["status"]) ? 1 : 0;
         
@@ -50,6 +50,9 @@
         $conn->close();
     }
 ?>
+
+<!-- Your HTML form goes here -->
+
 
 <?php include 'include/header.php'; ?>
 

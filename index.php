@@ -99,50 +99,71 @@
     </header>
 
     <?php
+    // Fetch the image URL from the database
+    $front_data = "SELECT * FROM front_section ORDER BY status DESC LIMIT 1"; // Order by status in descending order so that status=1 will come first
+    $front_result = $conn->query($front_data);
 
-      // Fetch the image URL from the database
-      $front_data = "SELECT * FROM front_section WHERE status = 1"; // Modify this query based on your table structure and condition
-      $front_result = $conn->query($front_data);
-  
-      if ($front_result->num_rows > 0) {
+    if ($front_result->num_rows > 0) {
         $row = $front_result->fetch_assoc();
-        $welcomeMsg = $row["welcome_msg"];
-        $para = $row["paragraph"];
-        $button_switch = $row["button_switch"];
         $imageURL = $row["front_bg_img"];
-
+        
         // Output the image URL as the background-image value
         echo '<div class="site-blocks-cover overlay" style="background-image: url(' . $imageURL . ');" data-aos="fade" id="home-section">';
-      } else {
-          // Handle case where no data is found
-          echo '<div class="site-blocks-cover overlay" data-aos="fade" id="home-section">';
-      }
+        
+        // Check if status is 1
+        if ($row['status'] == 1) {
+            $welcomeMsg = $row["welcome_msg"];
+            $para = $row["paragraph"];
+            $button_switch = $row["button_switch"];
+            
+            echo '
+                <div class="container">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-md-8 mt-lg-5 text-center">
+                            <h1 class="text-uppercase" data-aos="fade-up">' . $welcomeMsg . '</h1>
+                            <p class="mb-5 desc"  data-aos="fade-up" data-aos-delay="100">'. $para .'</p>';
+                            
+            if ($button_switch == 1) {
+                echo '<div data-aos="fade-up" data-aos-delay="100">
+                          <a href="#contact-section" class="btn smoothscroll btn-primary mr-2 mb-2">Get In Touch</a>
+                      </div>';
+            }
+            
+            echo '</div>
+                    </div>
+                </div>
 
-      // Close the div tag
-      echo '
-          <div class="container">
-              <div class="row align-items-center justify-content-center">
-                  <div class="col-md-8 mt-lg-5 text-center">
-                      <h1 class="text-uppercase" data-aos="fade-up">' . $welcomeMsg . '</h1>
-                      <p class="mb-5 desc"  data-aos="fade-up" data-aos-delay="100">'. $para .'</p>';
+                <a href="#about-section" class="mouse smoothscroll">
+                    <span class="mouse-icon">
+                        <span class="mouse-wheel"></span>
+                    </span>
+                </a>';
+        }
+        
+        echo '</div>'; // Close the div tag
+    } else {
+        // Handle case where no data is found
+        echo '<div class="site-blocks-cover overlay" data-aos="fade" id="home-section">
+                <div class="container">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-md-8 mt-lg-5 text-center">
+                            <h1 class="text-uppercase" data-aos="fade-up">Your Default Welcome Message</h1>
+                            <p class="mb-5 desc"  data-aos="fade-up" data-aos-delay="100">Your Default Paragraph</p>
+                            <div data-aos="fade-up" data-aos-delay="100">
+                                <a href="#contact-section" class="btn smoothscroll btn-primary mr-2 mb-2">Get In Touch</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#about-section" class="mouse smoothscroll">
+                    <span class="mouse-icon">
+                        <span class="mouse-wheel"></span>
+                    </span>
+                </a>
+            </div>';
+    }
+?>
 
-                      if($button_switch == 1){
-                          echo '<div data-aos="fade-up" data-aos-delay="100">
-                                  <a href="#contact-section" class="btn smoothscroll btn-primary mr-2 mb-2">Get In Touch</a>
-                                </div>';
-                      }
-      echo           '</div>
-              </div>
-          </div>
-
-          <a href="#about-section" class="mouse smoothscroll">
-              <span class="mouse-icon">
-                  <span class="mouse-wheel"></span>
-              </span>
-          </a>
-      </div>';
-
-    ?>
 
 <?php 
     // Fetch the data from the database
