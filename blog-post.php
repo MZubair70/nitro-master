@@ -1,3 +1,4 @@
+<?php require 'include/db_conn.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -147,6 +148,12 @@
           </div>
         </div>
       </header>
+      
+      <?php
+    // Fetch blog posts from database
+    $sql = "SELECT * FROM blog_section WHERE status = 1 ORDER BY publish_date DESC";
+    $result = $conn->query($sql);
+?>
 
       <div
         class="site-blocks-cover overlay"
