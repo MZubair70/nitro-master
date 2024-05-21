@@ -1,12 +1,11 @@
 <?php 
     session_start();
+    require 'include/db_conn.php';
 
     if (!isset($_SESSION["user_id"])) {
         header("Location: admin.php");
         exit();
     }
-
-    require 'include/db_conn.php';
 
     // Fetch existing blog post data based on ID
     if (isset($_GET['id'])) {
@@ -23,12 +22,13 @@
     }
 
     if (isset($_POST["submit"])) {
+        // Update existing blog post
         $title = $_POST["title"] ?? '';
         $blog_para = $_POST["blog_para"] ?? '';
         $upload_by = $_POST["upload_by"] ?? '';
         $status = isset($_POST["status"]) ? 1 : 0;
         
-        // Check if file is uploaded
+        // Check if file is uploaded and update image if necessary
         $fileFullPath = $row['blog_img']; // Keep the existing image if no new image is uploaded
         if (!empty($_FILES["blog_img"]["name"])) {
             $targetDir = "imgs/";
@@ -51,7 +51,7 @@
         // Prepare SQL update statement
         $sql = "UPDATE blog_section SET title = ?, blog_para = ?, upload_by = ?, status = ?, blog_img = ? WHERE blog_id = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssssi", $title, $blog_para, $upload_by, $status, $fileFullPath, $blog_id);
+        $stmt->bind_param("sssisi", $title, $blog_para, $upload_by, $status, $fileFullPath, $blog_id);
 
         if ($stmt->execute()) {
             echo "<script>alert('Blog post updated successfully!');</script>";
@@ -65,7 +65,6 @@
     }
 ?>
 
-
 <?php include 'include/header.php'; ?>
 
 <?php include 'include/sidebar.php'; ?>
@@ -76,7 +75,7 @@
             <div class="row">
                 <div class="col-10">
                     <div class="page-title-box">
-                        <h4 class="page-title">Feature Section</h4>
+                        <h4 class="page-title">Update Blog Post</h4>
                     </div>
                 </div>
             </div>
@@ -87,46 +86,38 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] . '?id=' . $blog_id); ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
                                     
                                         <div class="mb-3">
-                                            <label for="feature-heading" class="form-label">Heading:</label>
-                                            <input type="text" id="feature-heading" name="heading" class="form-control" placeholder="Your Heading Message" value="">
+                                            <label for="blog-title" class="form-label">Title:</label>
+                                            <input type="text" id="blog-title" name="title" class="form-control" placeholder="Blog Title" value="<?php echo $row['title']; ?>">
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="feature-subheading" class="form-label">Sub Heading:</label>
-                                            <input type="text" id="feature-subheading" name="subheading" class="form-control" placeholder="Your Sub-Heading Message" value="">
+                                            <label for="blog-para" class="form-label">Content:</label>
+                                            <textarea class="form-control" id="blog-para" name="blog_para" rows="6" placeholder="Blog Content"><?php echo $row['blog_para']; ?></textarea>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="paragraph" class="form-label">Paragraph</label>
-                                            <textarea class="form-control" id="paragraph" name="paragraph" rows="3" cols="50"></textarea>
+                                            <label for="upload-by" class="form-label">Uploaded By:</label>
+                                            <input type="text" id="upload-by" name="upload_by" class="form-control" placeholder="Uploader's Name" value="<?php echo $row['upload_by']; ?>">
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="feature-button" class="form-label">Button Active / Deactive</label>
-                                            <select class="form-select" id="feature-button" name="button">
-                                                <option value="1">Active</option>
-                                                <option value="0">Inactive</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="feature-img" class="form-label">Feature Section Image</label>
-                                            <input type="file" id="feature-img" name="fea_img" class="form-control">
+                                            <label for="blog-img" class="form-label">Blog Image:</label>
+                                            <input type="file" id="blog-img" name="blog_img" class="form-control">
                                         </div>
 
                                         <div class="mb-3">
                                             <div class="form-check form-switch form-switch-lg">
-                                                <label class="form-check-label" for="toggle-feature">Section ON/OFF</label>
-                                                <input class="form-check-input" type="checkbox" id="toggle-feature" name="status">
+                                                <label class="form-check-label" for="toggle-status">Status ON/OFF</label>
+                                                <input class="form-check-input" type="checkbox" id="toggle-status" name="status" <?php if ($row['status'] == 1) echo "checked"; ?>>
                                             </div>
                                         </div>
 
                                         <div class="mb-3">
                                             <div class="col-9">
-                                                <button type="submit" name="submit" class="btn btn-info">Submit</button>
+                                                <button type="submit" name="submit" class="btn btn-info">Update</button>
                                             </div>
                                         </div>
                                     </form>
@@ -152,17 +143,6 @@
     <!-- end Footer -->
 </div>
 
-<!-- ============================================================== -->
-<!-- End Page content -->
-<!-- ============================================================== -->
-
-</div>
-<!-- END wrapper -->
-
-<!-- Start Theme Settings -->
+<!-- Include footer and other necessary files -->
 <?php include 'include/theme-setting.php'; ?>
-<!-- End Theme Settings -->
-
-<!-- Start Footer -->
 <?php include 'include/footer.php'; ?>
-<!-- End Footer -->
